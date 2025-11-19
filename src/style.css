@@ -48,8 +48,8 @@ h2 {
 	flex-direction: column;
 }
 
-#username-input,
-#message-input {
+#username-text,
+#message-text {
 	width: 100%;
 }
 
@@ -79,33 +79,22 @@ input {
 	width: min-content;
 }
 
-#preview {
-	position: relative;
-	background-color: #18181b;
-	outline: 1px solid black;
-	flex-grow: 1;
-
-	#preview-background-container {
-		position: relative;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-
-		> * {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			width: 100%;
-			height: 100%;
-		}
-	}
-}
-
-#export-button {
+#export-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	margin-top: 10px;
 	float: right;
-	padding: 5px 10px;
+
+	> span {
+		color: grey;
+		font-size: small;
+		font-style: italic;
+	}
+
+	> #export-button {
+		padding: 5px 10px;
+	}
 }
 
 .flex-row {
@@ -162,4 +151,71 @@ input[type="range"] {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
+}
+
+#preview {
+	position: relative;
+	background-color: #18181b;
+	outline: 1px solid black;
+	flex-grow: 1;
+
+	#preview-background-container {
+		position: relative;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+
+		> * {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	#preview-message-container {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+
+		overflow: hidden;
+
+		#preview-message {
+			position: absolute;
+
+			font-family: Inter;
+			font-size: 14px;
+			font-weight: 400;
+			display: flex;
+			align-items: center;
+			width: max-content;
+			height: max-content;
+
+			#preview-message-content {
+				line-height: 22px;
+				overflow-wrap: break-word;
+
+				#preview-message-author {
+					font-weight: 700;
+				}
+			}
+
+			#preview-message-badges {
+				width: min-content;
+				display: inline-flex;
+				vertical-align: middle;
+				margin-right: -4px;
+
+				img {
+					width: 18px;
+					height: 18px;
+					margin: 0px 3px 2px 0px;
+				}
+			}
+		}
+	}
 }

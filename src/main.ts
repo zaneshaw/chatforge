@@ -9,6 +9,35 @@
 // 	}
 // }
 
+let settingsEl: HTMLElement | null;
+
+let usernameColorEl: HTMLInputElement | null;
+let usernameTextEl: HTMLInputElement | null;
+
+let messageColorEl: HTMLInputElement | null;
+let messageTextEl: HTMLInputElement | null;
+
+let outlineColorEl: HTMLInputElement | null;
+let outlineSliderEl: HTMLInputElement | null;
+let outlineThicknessValueEl: HTMLElement | null;
+
+let backgroundColorEl: HTMLInputElement | null;
+let backgroundSliderEl: HTMLInputElement | null;
+let backgroundOpacityValueEl: HTMLElement | null;
+
+let wrappingCheckboxEl: HTMLInputElement | null;
+
+let previewBackgroundCheckboxEl: HTMLInputElement | null;
+
+let previewEl: HTMLElement | null;
+let previewBackgroundContainerEl: HTMLElement | null;
+let previewBackgroundEl: HTMLElement | null;
+let previewMessageContainerEl: HTMLElement | null;
+let previewMessageEl: HTMLElement | null;
+let previewMessageContentEl: HTMLElement | null;
+let previewMessageAuthorEl: HTMLElement | null;
+let previewMessageBodyEl: HTMLElement | null;
+
 interface Settings {
 	badges: string[];
 	username: {
@@ -30,40 +59,66 @@ interface Settings {
 	wrapping: boolean;
 }
 
+// todo: dont handle defaults. settings will have a default at some point.
 function renderPreview(settings: Settings) {
-	console.log(settings);
+	console.debug(settings);
+
+	previewBackgroundEl!.style.backgroundColor = settings?.background.color || "#FFFFFF00";
+
+	if (previewBackgroundCheckboxEl?.checked) {
+		previewBackgroundContainerEl!.style.display = "block";
+	} else {
+		previewBackgroundContainerEl!.style.display = "none";
+	}
+
+	previewMessageContentEl!.style.width = settings?.wrapping ? "291px" : "auto";
+	previewMessageContentEl!.style.color = settings.username.color;
+
+	previewMessageAuthorEl!.style.color = settings.username.color;
+	previewMessageAuthorEl!.innerText = settings.username.text;
+
+	previewMessageBodyEl!.style.color = settings.message.color;
+	previewMessageBodyEl!.innerText = settings.message.text;
+
+	previewMessageEl!.style.left = `${previewMessageContainerEl!.clientWidth / 2 - previewMessageEl!.clientWidth / 2}px`;
+	previewMessageEl!.style.top = `${previewMessageContainerEl!.clientHeight / 2 - previewMessageEl!.clientHeight / 2}px`;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-	const settingsEl: HTMLElement | null = document.querySelector("#settings");
+	settingsEl = document.querySelector("#settings");
 
-	const usernameColorEl: HTMLInputElement | null = document.querySelector("#username-color");
-	const usernameTextEl: HTMLInputElement | null = document.querySelector("#username-text");
+	usernameColorEl = document.querySelector("#username-color");
+	usernameTextEl = document.querySelector("#username-text");
 
-	const messageColorEl: HTMLInputElement | null = document.querySelector("#message-color");
-	const messageTextEl: HTMLInputElement | null = document.querySelector("#message-text");
+	messageColorEl = document.querySelector("#message-color");
+	messageTextEl = document.querySelector("#message-text");
 
-	const outlineColorEl: HTMLInputElement | null = document.querySelector("#outline-color");
-	const outlineSliderEl: HTMLInputElement | null = document.querySelector("#outline-slider");
-	const outlineThicknessValueEl: HTMLElement | null = document.querySelector("#outline-thickness");
+	outlineColorEl = document.querySelector("#outline-color");
+	outlineSliderEl = document.querySelector("#outline-slider");
+	outlineThicknessValueEl = document.querySelector("#outline-thickness");
 
-	const backgroundColorEl: HTMLInputElement | null = document.querySelector("#background-color");
-	const backgroundSliderEl: HTMLInputElement | null = document.querySelector("#background-slider");
-	const backgroundOpacityValueEl: HTMLElement | null = document.querySelector("#background-opacity");
+	backgroundColorEl = document.querySelector("#background-color");
+	backgroundSliderEl = document.querySelector("#background-slider");
+	backgroundOpacityValueEl = document.querySelector("#background-opacity");
 
-	const wrappingCheckboxEl: HTMLInputElement | null = document.querySelector("#wrapping-checkbox");
+	wrappingCheckboxEl = document.querySelector("#wrapping-checkbox");
 
-	const previewBackgroundCheckboxEl: HTMLInputElement | null = document.querySelector("#preview-background-checkbox");
+	previewBackgroundCheckboxEl = document.querySelector("#preview-background-checkbox");
 
-	const previewEl: HTMLElement | null = document.querySelector("#preview");
-	const previewBackgroundContainerEl: HTMLElement | null = document.querySelector("#preview-background-container");
-	const previewBackgroundEl: HTMLElement | null = document.querySelector("#preview-background");
+	previewEl = document.querySelector("#preview");
+	previewBackgroundContainerEl = document.querySelector("#preview-background-container");
+	previewBackgroundEl = document.querySelector("#preview-background");
+	previewMessageContainerEl = document.querySelector("#preview-message-container");
+	previewMessageEl = document.querySelector("#preview-message");
+	previewMessageContentEl = document.querySelector("#preview-message-content");
+	previewMessageAuthorEl = document.querySelector("#preview-message-author");
+	previewMessageBodyEl = document.querySelector("#preview-message-body");
 
 	settingsEl?.addEventListener("input", updateAll);
-	previewBackgroundCheckboxEl?.addEventListener("input", () => updateThingies());
+	previewBackgroundCheckboxEl?.addEventListener("input", updateAll);
 
 	function updateAll() {
-		const backgroundOpacityHex = Math.floor(parseFloat(backgroundSliderEl?.value || "0") * 255).toString(16);
+		const backgroundOpacityHex = Math.floor(parseFloat(backgroundSliderEl?.value || "0") * 255).toString(16).padStart(2, "0");
 
 		const settings: Settings = {
 			badges: ["moderator"],
@@ -91,20 +146,12 @@ window.addEventListener("DOMContentLoaded", () => {
 	}
 
 	// todo: dont handle defaults. settings will have a default at some point.
-	function updateThingies(settings: Settings | undefined = undefined) {
+	function updateThingies(settings: Settings) {
 		outlineThicknessValueEl!.innerText = settings?.outline.thickness.toString() || "0";
 
 		backgroundOpacityValueEl!.innerText = settings?.background.opacity.toFixed(2) || "0.00";
 		backgroundColorEl!.style.opacity = settings?.background.opacity.toString() ?? "0";
-
-		previewBackgroundEl!.style.backgroundColor = settings?.background.color || "#FFFFFF00";
-
-		if (previewBackgroundCheckboxEl?.checked) {
-			previewBackgroundContainerEl!.style.display = "block";
-		} else {
-			previewBackgroundContainerEl!.style.display = "none";
-		}
 	}
 
-	updateThingies();
+	updateAll();
 });
