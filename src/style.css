@@ -8,13 +8,13 @@
 }
 
 :root {
+	@apply bg-neutral-100 text-neutral-900;
+
 	font-family: Inter, sans-serif;
 	font-size: 16px;
 	line-height: 24px;
 	font-weight: 400;
 
-	color: #0f0f0f;
-	background-color: #f6f6f6;
 	user-select: none;
 }
 
@@ -69,6 +69,12 @@ input {
 	width: 22px;
 	background-color: #dbdbdb;
 	cursor: pointer;
+	outline: none;
+	border: 0;
+}
+
+.badge-selector[src] {
+	background-color: transparent !important;
 }
 
 input[type="range"] {
