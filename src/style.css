@@ -1,0 +1,118 @@
+@font-face {
+	font-family: Inter;
+	src: url("/src/assets/inter.woff2");
+}
+
+:root {
+	font-family: Inter, sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: 400;
+
+	color: #0f0f0f;
+	background-color: #f6f6f6;
+}
+
+.container {
+	display: flex;
+	gap: 50px;
+
+	> div {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		flex-basis: 0;
+	}
+}
+
+h1,
+h2 {
+	margin: 5px 0px;
+}
+
+h1 {
+	font-size: 20px;
+}
+
+h2 {
+	font-size: 18px;
+}
+
+.input-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+#username-input,
+#message-input {
+	width: 100%;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+	appearance: none;
+	border: 1px solid black;
+	min-width: 21px;
+	min-height: 21px;
+	height: 21px;
+	padding: 1px;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+
+button,
+input {
+	width: min-content;
+}
+
+#preview {
+	outline: 1px solid black;
+	flex-grow: 1;
+}
+
+#export-button {
+	margin-top: 10px;
+	float: right;
+	padding: 5px 10px;
+}
+
+.flex-row {
+	display: flex;
+	gap: 3px;
+}
+
+.badge-selector {
+	height: 21px;
+	width: 21px;
+	background-color: #dbdbdb;
+}
+
+input[type="range"] {
+	max-width: 50%;
+}
+
+#transparent-colour-picker {
+	position: relative;
+	display: flex;
+	min-width: 21px;
+	min-height: 21px;
+
+	> * {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.transparent-image {
+	background-image: url("/src/assets/transparent.png");
+	background-position: center;
+}

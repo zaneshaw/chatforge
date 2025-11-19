@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="/src/styles.css" />
+		<link rel="stylesheet" href="/src/style.css" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Tauri App</title>
 		<script type="module" src="/src/main.ts" defer></script>
@@ -10,26 +10,62 @@
 
 	<body>
 		<main class="container">
-			<h1>Welcome to Tauri</h1>
-
-			<div class="row">
-				<a href="https://vite.dev" target="_blank">
-					<img src="/src/assets/vite.svg" class="logo vite" alt="Vite logo" />
-				</a>
-				<a href="https://tauri.app" target="_blank">
-					<img src="/src/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-				</a>
-				<a href="https://www.typescriptlang.org/docs" target="_blank">
-					<img src="/src/assets/typescript.svg" class="logo typescript" alt="typescript logo" />
-				</a>
+			<div id="settings-container">
+				<h2>settings</h2>
+				<div class="row">
+					<div class="input-wrapper">
+						<div class="flex-row" style="display: flex; gap: 10px;">
+							<div class="input-wrapper">
+								<span>badges</span>
+								<div class="flex-row">
+									<div class="badge-selector"></div>
+									<div class="badge-selector"></div>
+									<div class="badge-selector"></div>
+									<div class="badge-selector"></div>
+								</div>
+							</div>
+							<div class="input-wrapper" style="flex-grow: 1;">
+								<span>username</span>
+								<div class="flex-row">
+									<input id="outline-input" type="color" value="#FF0000" />
+									<input id="username-input" type="text" placeholder="coolguy" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="input-wrapper">
+						<span>message</span>
+						<div class="flex-row">
+							<input id="outline-input" type="color" />
+							<input id="message-input" type="text" placeholder="aga yo" />
+						</div>
+					</div>
+					<div class="input-wrapper">
+						<span>outline</span>
+						<div class="flex-row">
+							<input id="outline-input" type="color" value="#FFFFFF" />
+							<input id="message-input" type="range" min="0" max="5" step="1" value="0" />
+							<span style="font-size: small;">thickness: <span id="outline-thickness">0</span></span>
+						</div>
+					</div>
+					<div class="input-wrapper">
+						<span>background</span>
+						<div class="flex-row">
+							<div id="transparent-colour-picker">
+								<input id="outline-input" type="color" value="#FFFFFF" />
+								<div class="transparent-image"></div>
+							</div>
+							<input id="message-input" type="range" min="0" max="1" step="0.05" value="1" />
+							<span style="font-size: small;">opacity: <span id="background-opacity">1.0</span></span>
+						</div>
+					</div>
+				</div>
 			</div>
-			<p>Click on the Tauri logo to learn more about the framework</p>
-
-			<form class="row" id="greet-form">
-				<input id="greet-input" placeholder="Enter a name..." />
-				<button type="submit">Greet</button>
-			</form>
-			<p id="greet-msg"></p>
+			<div id="preview-container">
+				<h2>preview</h2>
+				<div class="transparent-image" id="preview"></div>
+			</div>
 		</main>
+		<button id="export-button">export</button>
 	</body>
 </html>

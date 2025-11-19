@@ -13,9 +13,11 @@
 		"withGlobalTauri": true,
 		"windows": [
 			{
-				"title": "fake-chat",
+				"title": "fake chat",
 				"width": 800,
-				"height": 600
+				"height": 300,
+				"maximizable": false,
+				"resizable": false
 			}
 		],
 		"security": {
