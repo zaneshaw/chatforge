@@ -64,7 +64,9 @@ async function exportPng() {
 	if (exporting) return;
 	exporting = true;
 
-	if (previewMessageContentEl) {
+	renderPreview();
+
+	if (previewMessageEl) {
 		const path = await save({
 			defaultPath: `${await downloadDir()}/fakechat-${Date.now()}.png`,
 			filters: [
@@ -76,9 +78,9 @@ async function exportPng() {
 		});
 
 		if (path) {
-			previewMessageContentEl.style.backgroundColor = previewBackgroundEl!.style.backgroundColor;
-			const result = await snapdom.toBlob(previewMessageContentEl, { type: "png", embedFonts: true, scale: settings.upscale ? 10 : 1 });
-			previewMessageContentEl.style.backgroundColor = "initial";
+			previewMessageEl.style.backgroundColor = previewBackgroundEl!.style.backgroundColor;
+			const result = await snapdom.toBlob(previewMessageEl, { type: "png", embedFonts: true, scale: settings.upscale ? 10 : 1 });
+			previewMessageEl.style.backgroundColor = "initial";
 
 			const bytes = new Uint8Array(await result.arrayBuffer());
 
