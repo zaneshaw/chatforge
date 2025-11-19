@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
@@ -8,72 +8,68 @@
 		<script type="module" src="/src/main.ts" defer></script>
 	</head>
 
-	<body>
-		<main class="container">
-			<div>
-				<h2>settings</h2>
-				<div id="settings">
-					<div class="input-wrapper">
-						<div class="flex-row" style="display: flex; gap: 10px">
-							<div class="input-wrapper">
+	<body class="m-3">
+		<main class="flex gap-12">
+			<div class="flex grow basis-0 flex-col">
+				<h2 class="mb-1">settings</h2>
+				<div class="flex flex-col gap-1" id="settings">
+					<div class="flex flex-col">
+						<div class="flex items-center gap-3">
+							<div class="flex flex-col">
 								<span>badges</span>
-								<div class="flex-row">
+								<div class="flex items-center gap-1">
 									<div class="badge-selector"></div>
 									<div class="badge-selector"></div>
 									<div class="badge-selector"></div>
 									<div class="badge-selector"></div>
 								</div>
 							</div>
-							<div class="input-wrapper" style="flex-grow: 1">
+							<div class="flex grow flex-col">
 								<span>username</span>
-								<div class="flex-row">
+								<div class="flex items-center gap-1">
 									<input id="username-color" type="color" value="#FFFFFF" />
-									<input id="username-text" type="text" placeholder="coolguy" autocomplete="off" />
+									<input class="grow" id="username-text" type="text" placeholder="coolguy" autocomplete="off" />
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="input-wrapper">
+					<div class="flex flex-col">
 						<span>message</span>
-						<div class="flex-row">
+						<div class="flex items-center gap-1">
 							<input id="message-color" type="color" value="#FFFFFF" />
-							<input id="message-text" type="text" placeholder="aga yo" autocomplete="off" />
+							<input class="grow" id="message-text" type="text" placeholder="aga yo" autocomplete="off" />
 						</div>
 					</div>
-					<div class="input-wrapper">
+					<div class="flex flex-col">
 						<span>outline</span>
-						<div class="flex-row">
+						<div class="flex items-center gap-1">
 							<input id="outline-color" type="color" value="#000000" />
 							<input id="outline-slider" type="range" min="0" max="5" step="1" value="0" />
-							<span style="font-size: small">thickness: <span id="outline-thickness">0</span></span>
+							<span class="text-xs">thickness: <span id="outline-thickness">0</span></span>
 						</div>
 					</div>
-					<div class="input-wrapper">
+					<div class="flex flex-col">
 						<span>background</span>
-						<div class="flex-row">
-							<div id="transparent-colour-picker">
-								<div class="transparent-image"></div>
-								<input id="background-color" type="color" value="#FFFFFF" />
+						<div class="flex items-center gap-1">
+							<div class="relative box-border flex size-[22px] overflow-hidden border">
+								<div class="transparent-image absolute top-0 left-0 size-full"></div>
+								<input class="absolute top-0 left-0 m-0 size-5! border-none! p-0" id="background-color" type="color" value="#FFFFFF" />
 							</div>
 							<input id="background-slider" type="range" min="0" max="1" step="0.05" value="0" />
-							<span style="font-size: small">opacity: <span id="background-opacity">0.0</span></span>
+							<span class="text-xs">opacity: <span id="background-opacity">0.0</span></span>
 						</div>
 					</div>
-					<div class="flex-row">
-						<div>
-							<label>
-								wrap text
-								<input type="checkbox" id="wrapping-checkbox" />
-							</label>
-						</div>
-					</div>
+					<label class="flex items-center gap-1">
+						wrap text
+						<input type="checkbox" id="wrapping-checkbox" />
+					</label>
 				</div>
 			</div>
-			<div>
-				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px">
-					<h2 style="margin-bottom: 0px">preview</h2>
-					<div class="flex-row">
-						<label style="font-size: small; display: flex; align-items: center">
+			<div class="flex grow basis-0 flex-col">
+				<div class="mb-1 flex items-center justify-between">
+					<h2>preview</h2>
+					<div class="flex items-center gap-1">
+						<label class="flex items-center text-xs">
 							preview background
 							<input type="checkbox" id="preview-background-checkbox" />
 						</label>
@@ -99,9 +95,9 @@
 				</div>
 			</div>
 		</main>
-		<div id="export-container">
-			<span>*something important*</span>
-			<button id="export-button">export</button>
+		<div class="float-right mt-3 flex items-center gap-3">
+			<button class="cursor-pointer px-3 py-1.5 text-sm font-bold" id="export-button">export</button>
 		</div>
+		<span class="absolute bottom-1 left-3 cursor-default text-xs text-neutral-400">made by <a class="text-inherit no-underline" href="https://squidee.dev/" target="_blank">squidee</a></span>
 	</body>
 </html>

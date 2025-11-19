@@ -1,3 +1,7 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
 @font-face {
 	font-family: Inter;
 	src: url("/src/assets/inter.woff2");
@@ -11,28 +15,12 @@
 
 	color: #0f0f0f;
 	background-color: #f6f6f6;
-}
-
-body {
-	margin: 10px;
-}
-
-.container {
-	display: flex;
-	gap: 50px;
-
-	> div {
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-		flex-basis: 0;
-	}
+	user-select: none;
 }
 
 h1,
 h2 {
 	margin: 0px;
-	margin-bottom: 5px;
 }
 
 h1 {
@@ -43,27 +31,24 @@ h2 {
 	font-size: 18px;
 }
 
-.input-wrapper {
-	display: flex;
-	flex-direction: column;
-}
-
-#username-text,
-#message-text {
-	width: 100%;
-}
-
 input[type="text"] {
-	height: 16px;
+	height: 18px;
+	border: 1px solid black;
+}
+
+label:has(input[type="checkbox"]) {
+	width: fit-content;
+	cursor: pointer;
 }
 
 input[type="color"] {
 	-webkit-appearance: none;
 	appearance: none;
 	border: 1px solid black;
-	min-width: 22px;
+	width: 22px;
 	height: 22px;
 	padding: 1px;
+	cursor: pointer;
 }
 
 input[type="color"]::-webkit-color-swatch-wrapper {
@@ -79,65 +64,16 @@ input {
 	width: min-content;
 }
 
-#export-container {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-top: 10px;
-	float: right;
-
-	> span {
-		color: grey;
-		font-size: small;
-		font-style: italic;
-	}
-
-	> #export-button {
-		padding: 5px 10px;
-	}
-}
-
-.flex-row {
-	display: flex;
-	gap: 3px;
-	align-items: center;
-}
-
 .badge-selector {
 	height: 22px;
 	width: 22px;
 	background-color: #dbdbdb;
+	cursor: pointer;
 }
 
 input[type="range"] {
 	max-width: 50%;
-}
-
-/* scuffed */
-#transparent-colour-picker {
-	position: relative;
-	display: flex;
-	width: 22px;
-	height: 22px;
-
-	box-sizing: border-box;
-	border: 1px solid black;
-
-	> * {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-	}
-
-	> input {
-		padding: 0px;
-		border: 0px;
-		width: 20px;
-		min-width: 20px;
-		height: 20px;
-	}
+	cursor: pointer;
 }
 
 .transparent-image {
@@ -147,17 +83,12 @@ input[type="range"] {
 	image-rendering: pixelated;
 }
 
-#settings {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-}
-
 #preview {
 	position: relative;
 	background-color: #18181b;
 	outline: 1px solid black;
 	flex-grow: 1;
+	user-select: text;
 
 	#preview-background-container {
 		position: relative;
