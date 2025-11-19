@@ -23,6 +23,8 @@ let wrappingCheckboxEl: HTMLInputElement | null;
 
 let previewBackgroundCheckboxEl: HTMLInputElement | null;
 
+let upscaleCheckboxEl: HTMLInputElement | null;
+
 let previewBackgroundContainerEl: HTMLElement | null;
 let previewBackgroundEl: HTMLElement | null;
 let previewMessageContainerEl: HTMLElement | null;
@@ -51,7 +53,8 @@ interface Settings {
 		color: string;
 		opacity: number;
 	};
-	wrapping: boolean;
+	wrap: boolean;
+	upscale: boolean;
 }
 
 let exporting = false;
@@ -102,7 +105,7 @@ function renderPreview(settings: Settings) {
 		previewBackgroundContainerEl!.style.display = "none";
 	}
 
-	previewMessageContentEl!.style.width = settings?.wrapping ? "291px" : "auto";
+	previewMessageContentEl!.style.width = settings?.wrap ? "291px" : "auto";
 	previewMessageContentEl!.style.color = settings.username.color;
 	previewMessageContentEl!.style.webkitTextStrokeColor = settings.outline.color;
 	previewMessageContentEl!.style.webkitTextStrokeWidth = `${settings.outline.thickness}px`;
@@ -137,6 +140,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	previewBackgroundCheckboxEl = document.querySelector("#preview-background-checkbox");
 
+	upscaleCheckboxEl = document.querySelector("#upscale-checkbox");
+
 	previewBackgroundContainerEl = document.querySelector("#preview-background-container");
 	previewBackgroundEl = document.querySelector("#preview-background");
 	previewMessageContainerEl = document.querySelector("#preview-message-container");
@@ -149,6 +154,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	settingsEl?.addEventListener("input", updateAll);
 	previewBackgroundCheckboxEl?.addEventListener("input", updateAll);
+	upscaleCheckboxEl?.addEventListener("input", updateAll);
 	exportButtonEl?.addEventListener("click", exportPng);
 
 	function updateAll() {
@@ -174,7 +180,8 @@ window.addEventListener("DOMContentLoaded", () => {
 				color: `${backgroundColorEl?.value}${backgroundOpacityHex}` || "#FFFFFF00",
 				opacity: parseFloat(backgroundSliderEl?.value || "0"),
 			},
-			wrapping: wrappingCheckboxEl?.checked || false,
+			wrap: wrappingCheckboxEl?.checked || false,
+			upscale: upscaleCheckboxEl?.checked || false
 		};
 
 		renderPreview(settings);
