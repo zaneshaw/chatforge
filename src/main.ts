@@ -1,13 +1,7 @@
-// import { invoke } from "@tauri-apps/api/core";
-
-// async function greet() {
-// 	if (greetMsgEl && greetInputEl) {
-// 		// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-// 		greetMsgEl.textContent = await invoke("greet", {
-// 			name: greetInputEl.value,
-// 		});
-// 	}
-// }
+import { snapdom } from "@zumer/snapdom";
+import { downloadDir } from "@tauri-apps/api/path";
+import { save } from "@tauri-apps/plugin-dialog";
+import { writeFile } from "@tauri-apps/plugin-fs";
 
 let settingsEl: HTMLElement | null;
 
@@ -29,7 +23,6 @@ let wrappingCheckboxEl: HTMLInputElement | null;
 
 let previewBackgroundCheckboxEl: HTMLInputElement | null;
 
-let previewEl: HTMLElement | null;
 let previewBackgroundContainerEl: HTMLElement | null;
 let previewBackgroundEl: HTMLElement | null;
 let previewMessageContainerEl: HTMLElement | null;
@@ -37,6 +30,8 @@ let previewMessageEl: HTMLElement | null;
 let previewMessageContentEl: HTMLElement | null;
 let previewMessageAuthorEl: HTMLElement | null;
 let previewMessageBodyEl: HTMLElement | null;
+
+let exportButtonEl: HTMLButtonElement | null;
 
 interface Settings {
 	badges: string[];
@@ -57,6 +52,38 @@ interface Settings {
 		opacity: number;
 	};
 	wrapping: boolean;
+}
+
+let exporting = false;
+
+async function exportPng() {
+	if (exporting) return;
+	exporting = true;
+
+	if (previewMessageContentEl) {
+		const path = await save({
+			defaultPath: `${await downloadDir()}/fakechat-${Date.now()}.png`,
+			filters: [
+				{
+					name: "PNG",
+					extensions: ["png"],
+				},
+			],
+		});
+
+		if (path) {
+			previewMessageContentEl.style.backgroundColor = previewBackgroundEl!.style.backgroundColor;
+			const result = await snapdom.toBlob(previewMessageContentEl, { type: "png", embedFonts: true, scale: 10 });
+			previewMessageContentEl.style.backgroundColor = "initial";
+
+			const bytes = new Uint8Array(await result.arrayBuffer());
+
+			await writeFile(path, bytes);
+		}
+
+	}
+
+	exporting = false;
 }
 
 // todo: dont handle defaults. settings will have a default at some point.
@@ -105,7 +132,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	previewBackgroundCheckboxEl = document.querySelector("#preview-background-checkbox");
 
-	previewEl = document.querySelector("#preview");
 	previewBackgroundContainerEl = document.querySelector("#preview-background-container");
 	previewBackgroundEl = document.querySelector("#preview-background");
 	previewMessageContainerEl = document.querySelector("#preview-message-container");
@@ -114,11 +140,16 @@ window.addEventListener("DOMContentLoaded", () => {
 	previewMessageAuthorEl = document.querySelector("#preview-message-author");
 	previewMessageBodyEl = document.querySelector("#preview-message-body");
 
+	exportButtonEl = document.querySelector("#export-button");
+
 	settingsEl?.addEventListener("input", updateAll);
 	previewBackgroundCheckboxEl?.addEventListener("input", updateAll);
+	exportButtonEl?.addEventListener("click", exportPng);
 
 	function updateAll() {
-		const backgroundOpacityHex = Math.floor(parseFloat(backgroundSliderEl?.value || "0") * 255).toString(16).padStart(2, "0");
+		const backgroundOpacityHex = Math.floor(parseFloat(backgroundSliderEl?.value || "0") * 255)
+			.toString(16)
+			.padStart(2, "0");
 
 		const settings: Settings = {
 			badges: ["moderator"],
