@@ -185,4 +185,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	}
 
 	updateAll();
+
+	setInterval(() => {
+		previewMessageEl!.style.left = `${previewMessageContainerEl!.clientWidth / 2 - previewMessageEl!.clientWidth / 2}px`;
+		previewMessageEl!.style.top = `${previewMessageContainerEl!.clientHeight / 2 - previewMessageEl!.clientHeight / 2}px`;
+	}, 100);
 });
