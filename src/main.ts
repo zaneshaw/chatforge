@@ -216,7 +216,7 @@ function searchGlobalBadges(query: string) {
 
 		const badgeEls = resultsEl.querySelectorAll("img");
 		for (const badge of badgeEls) {
-			const dumbName = badge.dataset.badge?.toLowerCase() as string;
+			const dumbName = badge.dataset.badge?.toLowerCase().replace(/\s/g, "") as string;
 			const dumbQuery = query.toLowerCase().replace(/\s/g, "");
 
 			badge.style.display = dumbName.includes(dumbQuery) ? "block" : "none";
