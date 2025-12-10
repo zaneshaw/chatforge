@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
 	"productName": "fake chat",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"identifier": "dev.squidee.fake-chat",
 	"build": {
 		"beforeDevCommand": "bun run dev",
@@ -14,7 +14,7 @@
 		"windows": [
 			{
 				"title": "fake chat",
-				"width": 800,
+				"width": 900,
 				"height": 350,
 				"maximizable": false,
 				"resizable": false

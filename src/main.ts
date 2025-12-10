@@ -40,6 +40,8 @@ let emotesSaveButtonEl: HTMLInputElement;
 
 let wrappingCheckboxEl: HTMLInputElement;
 
+let highlightCheckboxEl: HTMLInputElement;
+
 let previewBackgroundCheckboxEl: HTMLInputElement;
 
 let upscaleCheckboxEl: HTMLInputElement;
@@ -105,10 +107,11 @@ interface Settings {
 	upscale: boolean;
 	font: string;
 	userPresets: UserPreset[];
+	highlight: boolean;
 }
 
 const defaultSettings: Settings = {
-	version: 4,
+	version: 5,
 	badges: ["https://static-cdn.jtvnw.net/badges/v1/d12a2e27-16f6-41d0-ab77-b780518f00a3/3", "https://static-cdn.jtvnw.net/badges/v1/3158e758-3cb4-43c5-94b3-7639810451c5/3", "", ""],
 	username: {
 		color: "#FFFFFF",
@@ -150,6 +153,7 @@ const defaultSettings: Settings = {
 			},
 		},
 	],
+	highlight: false,
 };
 
 let settings: Settings;
@@ -351,10 +355,16 @@ function renderPreview() {
 		previewBackgroundContainerEl.style.display = "none";
 	}
 
-	previewMessageContentEl.style.maxWidth = settings.wrap ? "291px" : "fit-content";
+	previewMessageContentEl.style.width = settings.wrap ? "291px" : "fit-content";
 	previewMessageContentEl.style.color = settings.message.color;
 	previewMessageContentEl.style.webkitTextStrokeColor = settings.outline.color;
 	previewMessageContentEl.style.webkitTextStrokeWidth = `${settings.outline.thickness}px`;
+
+	if (settings.highlight) {
+		document.querySelector("#preview-message")?.classList.add("preview-message-highlight");
+	} else {
+		document.querySelector("#preview-message")?.classList.remove("preview-message-highlight");
+	}
 
 	if (settings.badges) {
 		previewMessageBadgesEl.innerHTML = settings.badges
@@ -374,7 +384,7 @@ function renderPreview() {
 		const emoteToken = emotes.find((emote) => emote.token == tokens[i]);
 		console.log(emotes.length);
 		if (emoteToken) {
-			tokens[i] = `<img src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteToken.id}/default/dark/3.0" style="width: 24px; margin-bottom: -3px;" />`;
+			tokens[i] = `<img src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteToken.id}/default/dark/3.0" style="width: 24px; vertical-align: middle;" />`;
 		}
 	}
 	previewMessageBodyEl.innerHTML = tokens.join(" ");
@@ -412,6 +422,7 @@ function updateElementsFromSettings() {
 	emotesSeventvCheckboxEl.checked = settings.emotes.seventv;
 
 	wrappingCheckboxEl.checked = settings.wrap;
+	highlightCheckboxEl.checked = settings.highlight;
 	upscaleCheckboxEl.checked = settings.upscale;
 
 	(document.querySelector(`input[name='font'][value='${settings.font}']`) as HTMLInputElement).checked = true;
@@ -441,6 +452,7 @@ function updateSettingsFromElements() {
 	};
 
 	settings.wrap = wrappingCheckboxEl.checked;
+	settings.highlight = highlightCheckboxEl.checked;
 	settings.upscale = upscaleCheckboxEl.checked;
 
 	settings.font = (document.querySelector("input[name='font']:checked") as HTMLInputElement).value;
@@ -463,6 +475,11 @@ function upgradeSettings() {
 	if (settings.version < 4) {
 		settings.emotes = defaultSettings.emotes;
 		settings.version = 4;
+	}
+
+	if (settings.version < 5) {
+		settings.highlight = defaultSettings.highlight;
+		settings.version = 5;
 	}
 
 	saveSettings();
@@ -687,6 +704,8 @@ function findAllElements() {
 	emotesSaveButtonEl = document.querySelector("#emote-save-button") as HTMLInputElement;
 
 	wrappingCheckboxEl = document.querySelector("#wrapping-checkbox") as HTMLInputElement;
+
+	highlightCheckboxEl = document.querySelector("#highlight-checkbox") as HTMLInputElement;
 
 	previewBackgroundCheckboxEl = document.querySelector("#preview-background-checkbox") as HTMLInputElement;
 
