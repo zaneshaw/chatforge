@@ -170,13 +170,14 @@ input[type="range"] {
 				top: -3px;
 				right: 18px;
 				color: #c832c8;
+				font-family: Inter;
 				font-weight: 600;
 				font-size: 6.5pt;
 				text-transform: uppercase;
 			}
 
 			&.preview-message-highlight #preview-message-highlight-background {
-				background-color: #c832c81A;
+				background-color: #c832c81a;
 				width: 100%;
 				height: 100%;
 				position: absolute;
@@ -191,8 +192,21 @@ input[type="range"] {
 				box-sizing: border-box;
 				padding: 10px 0px;
 
+				z-index: 2;
+
 				#preview-message-author {
 					font-weight: 700;
+				}
+
+				#preview-message-body {
+					display: inline-flex;
+					gap: 4px;
+					align-items: center;
+
+					img {
+						height: 28px;
+						margin: -999px 0px;
+					}
 				}
 			}
 

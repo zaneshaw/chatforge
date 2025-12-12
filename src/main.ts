@@ -384,7 +384,7 @@ function renderPreview() {
 		const emoteToken = emotes.find((emote) => emote.token == tokens[i]);
 		console.log(emotes.length);
 		if (emoteToken) {
-			tokens[i] = `<img src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteToken.id}/default/dark/3.0" style="width: 24px; vertical-align: middle;" />`;
+			tokens[i] = `<img src="https://static-cdn.jtvnw.net/emoticons/v2/${emoteToken.id}/default/dark/3.0" />`;
 		}
 	}
 	previewMessageBodyEl.innerHTML = tokens.join(" ");
