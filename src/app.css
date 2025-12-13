@@ -4,12 +4,12 @@
 
 @font-face {
 	font-family: Inter;
-	src: url("/src/assets/inter.woff2");
+	src: url("./src/assets/inter.woff2");
 }
 
 @font-face {
 	font-family: MADE;
-	src: url("/src/assets/made extrabold.otf");
+	src: url("./src/assets/made extrabold.otf");
 }
 
 :root {
@@ -21,6 +21,14 @@
 	font-weight: 400;
 
 	user-select: none;
+}
+
+html {
+	margin: 12px;
+}
+
+body {
+	margin: 0px;
 }
 
 h1,

@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import tailwindcss from "@tailwindcss/vite";
 
 // @ts-expect-error process is a nodejs global
@@ -20,12 +21,12 @@ export default defineConfig(async () => ({
 					protocol: "ws",
 					host,
 					port: 1421,
-			  }
+				}
 			: undefined,
 		watch: {
 			// 3. tell Vite to ignore watching `src-tauri`
 			ignored: ["**/src-tauri/**"],
 		},
 	},
-	plugins: [tailwindcss()],
+	plugins: [svelte(), tailwindcss()],
 }));
