@@ -4,8 +4,15 @@
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
 	import SettingsRow from "./lib/components/SettingsRow.svelte";
+	import RadioGroup from "./lib/components/RadioGroup.svelte";
 
+	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
+	let messageType: string = $state("");
+
+	$effect(() => {
+		console.log(messageType);
+	});
 </script>
 
 <main class="flex h-full grow flex-col justify-between">
@@ -55,11 +62,14 @@
 			</SettingsGroup>
 		</SettingsRow>
 		<Setting label="Message Type">
-			<div class="ml-auto flex">
-				<button class="btn rounded-r-none! bg-zinc-800!">Default</button>
-				<button class="btn rounded-none! text-zinc-400">First</button>
-				<button class="btn rounded-l-none! text-zinc-400">Deleted</button>
-			</div>
+			<RadioGroup
+				bind:selected={messageType}
+				options={{
+					Default: "default",
+					First: "first",
+					Deleted: "deleted",
+				}}
+			/>
 		</Setting>
 		<Setting label="Text Wrapping (force to Twitch's width)">
 			<input type="checkbox" name="" id="" />
