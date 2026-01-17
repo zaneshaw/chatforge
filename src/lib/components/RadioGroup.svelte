@@ -2,11 +2,6 @@
 	type Props = { options: { [name: string]: string }; selected: string };
 
 	let { options, selected = $bindable() }: Props = $props();
-
-	// svelte-ignore state_referenced_locally
-	$effect(() => {
-		selected = Object.values(options)[0];
-	});
 </script>
 
 <div class="ml-auto flex">
