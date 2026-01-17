@@ -16,14 +16,66 @@
 	--color-twitch-text: #efeff1;
 }
 
+:root {
+	color-scheme: dark;
+}
+
 body {
-	@apply box-content flex h-screen flex-col bg-twitch-background font-[Inter,sans-serif] text-base text-twitch-text select-none;
+	@apply bg-twitch-background text-twitch-text box-content flex h-screen flex-col font-[Inter,sans-serif] text-xs select-none;
 }
 
 main {
 	@apply m-3;
 }
 
+hr {
+	@apply border-zinc-800;
+}
+
 h1 {
-	@apply text-xl font-medium;
+	@apply text-lg font-medium;
+}
+
+h2 {
+	@apply font-medium;
+}
+
+input[type="color"] {
+	@apply w-32 cursor-pointer h-3.5;
+
+	&::-webkit-color-swatch-wrapper {
+		@apply p-0;
+	}
+
+	&::-webkit-color-swatch {
+		@apply rounded-xs border-zinc-700;
+	}
+}
+
+input[type="range"] {
+	@apply h-3 w-32 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
+
+	&::-webkit-slider-thumb {
+		@apply size-3.5 appearance-none rounded-xs bg-white;
+	}
+}
+
+input[type="checkbox"] {
+	@apply relative flex size-3.5 cursor-pointer appearance-none items-center justify-center rounded-xs bg-zinc-900 outline-1 outline-zinc-700;
+
+	&:checked::after {
+		@apply absolute size-3/4 rounded-xs bg-white content-[""];
+	}
+}
+
+.box {
+	@apply bg-twitch-background-light rounded-xs outline-1 outline-zinc-800 hover:outline-zinc-700;
+}
+
+.btn {
+	@apply bg-twitch-background-light w-max cursor-pointer rounded-xs px-2 py-1 outline-1 outline-zinc-700 hover:bg-zinc-800 active:bg-zinc-700 active:outline-zinc-600;
+}
+
+.between {
+	@apply flex items-center justify-between;
 }
