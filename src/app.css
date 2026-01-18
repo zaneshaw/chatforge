@@ -88,3 +88,15 @@ input[type="number"] {
 .between {
 	@apply flex items-center justify-between;
 }
+
+.btn-danger {
+	@apply relative z-10 hover:bg-red-950 active:bg-red-950;
+
+	&::before {
+		@apply absolute top-0 left-0 -z-10 h-full w-0 bg-red-700! content-[""];
+	}
+
+	&:active::before {
+		@apply w-full transition-[width] duration-1500 ease-[ease-out];
+	}
+}
