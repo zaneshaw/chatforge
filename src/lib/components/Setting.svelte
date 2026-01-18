@@ -28,12 +28,12 @@
 </script>
 
 {#if isChild}
-	<div class="{minimal ? '' : 'between'} {_class}">
+	<div class="{minimal ? '' : 'between h-6'} {_class}">
 		<span>{label}</span>
 		{@render children()}
 	</div>
 {:else}
-	<div class="{minimal ? '' : 'box between p-2'} {_class}">
+	<div class="{minimal ? '' : 'box between h-10 p-2'} {_class}">
 		<h2>{label}</h2>
 		{@render children()}
 	</div>
