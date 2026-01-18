@@ -17,9 +17,10 @@
 				<span
 					bind:textContent={usernameValue}
 					contenteditable="true"
-					onfocus={(e) => (e.target as HTMLInputElement).select()}
-					onblur={() => {
+					onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
+					onblur={(e) => {
 						if (usernameValue.length == 0) usernameValue = USERNAME_PLACEHOLDER;
+						window.getSelection()?.empty();
 					}}
 					spellcheck="false"
 					class="inline-block min-w-0.75 rounded-xs p-0 font-bold outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
@@ -30,9 +31,10 @@
 				<span
 					bind:textContent={messageValue}
 					contenteditable="true"
-					onfocus={(e) => (e.target as HTMLInputElement).select()}
+					onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
 					onblur={() => {
 						if (messageValue.length == 0) messageValue = MESSAGE_PLACEHOLDER;
+						window.getSelection()?.empty();
 					}}
 					spellcheck="false"
 					class="inline-block min-w-0.75 rounded-xs p-0 wrap-break-word break-all outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
