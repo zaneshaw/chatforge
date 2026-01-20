@@ -20,10 +20,17 @@
 					<span class="bg-[url(https://static-cdn.jtvnw.net/badges/v1/{badge}/1)]"></span>
 				{/each}
 			</span><Setting label="" key="username.text" bind:value={usernameValue} minimal>
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<span
-					bind:textContent={usernameValue}
+					bind:innerText={usernameValue}
 					contenteditable="true"
 					onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
+					onkeydown={(e) => {
+						if (e.key == "Enter" || e.key == " ") e.preventDefault();
+					}}
+					oninput={() => {
+						usernameValue = usernameValue.trim().replace(/\n|\s/g, "");
+					}}
 					onblur={() => {
 						if (usernameValue.length == 0) usernameValue = USERNAME_PLACEHOLDER;
 						window.getSelection()?.empty();
@@ -35,9 +42,12 @@
 			<span class="wrap-break-word">
 				<Setting label="" key="message.text" bind:value={messageValue} minimal>
 					<span
-						bind:textContent={messageValue}
+						bind:innerText={messageValue}
 						contenteditable="true"
 						onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
+						oninput={() => {
+							messageValue = messageValue.trim().replace(/\n\s*\n/g, "\n");
+						}}
 						onblur={() => {
 							if (messageValue.length == 0) messageValue = MESSAGE_PLACEHOLDER;
 							window.getSelection()?.empty();
