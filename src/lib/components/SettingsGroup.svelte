@@ -5,12 +5,16 @@
 		children: any;
 		label: string;
 		help?: string;
+		disabled?: boolean;
 	};
 
-	let { children, label, help }: Props = $props();
+	let { children, label, help, disabled = false }: Props = $props();
 </script>
 
-<div class="box flex flex-col gap-1 p-2">
+<div class="box relative flex flex-col gap-1 overflow-hidden p-2 {disabled ? 'pointer-events-none outline-zinc-900!' : ''}">
+	{#if disabled}
+		<div class="absolute top-0 left-0 size-full bg-zinc-950/80"></div>
+	{/if}
 	<div class="between">
 		<h2>{label}</h2>
 		{#if help}
