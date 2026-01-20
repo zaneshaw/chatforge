@@ -24,6 +24,6 @@
 		{/if}
 	</div>
 	<div class="flex flex-col gap-1 *:ml-1.5">
-		{@render children()}
+		{@render children?.()}
 	</div>
 </div>
