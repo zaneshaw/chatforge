@@ -27,14 +27,19 @@
 	});
 </script>
 
-{#if isChild}
-	<div class="{minimal ? '' : 'between h-6'} {_class}">
-		<span>{label}</span>
-		{@render children()}
-	</div>
+{#if minimal}
+	{@render children()}
 {:else}
-	<div class="{minimal ? '' : 'box between h-10 p-2'} {_class}">
-		<h2>{label}</h2>
-		{@render children()}
-	</div>
+	{#if isChild}
+		<div class="between h-6 {_class}">
+			<span>{label}</span>
+			{@render children()}
+		</div>
+	{:else}
+		<div class="box between h-10 p-2 {_class}">
+			<h2>{label}</h2>
+			{@render children()}
+		</div>
+	{/if}
 {/if}
+
