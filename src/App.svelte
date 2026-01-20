@@ -6,7 +6,7 @@
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
 	import SettingsRow from "./lib/components/SettingsRow.svelte";
-	import RadioGroup from "./lib/components/RadioGroup.svelte";
+	import RadioButton from "./lib/components/RadioButton.svelte";
 	import MessagePreview from "./lib/components/MessagePreview.svelte";
 
 	// svelte-ignore non_reactive_update
@@ -19,9 +19,12 @@
 	let outlineColourValue: string = $state("#000000");
 	let outlineThicknessValue: number = $state(0);
 	let messageTypeValue: string = $state("default");
-	let wrapValue: boolean = $state(false);
+	let maxWidthValue: string = $state("twitch");
+	let customMaxWidthValue: number = $state(340);
 	let alwaysOnTopValue: boolean = $state(true);
 	let backgorundPreviewValue: boolean = $state(true);
+
+	$inspect(maxWidthValue);
 
 	$effect(() => {
 		getCurrentWindow().setAlwaysOnTop(alwaysOnTopValue);
@@ -92,17 +95,25 @@
 			</SettingsGroup>
 		</SettingsRow>
 		<Setting label="Message Type" key="message_type" bind:value={messageTypeValue}>
-			<RadioGroup
-				bind:selected={messageTypeValue}
-				options={{
-					Default: "default",
-					First: "first",
-					Deleted: "deleted",
-				}}
-			/>
+			<div class="ml-auto flex">
+				<RadioButton bind:selected={messageTypeValue} name="default" first>Default</RadioButton>
+				<RadioButton bind:selected={messageTypeValue} name="first">First</RadioButton>
+				<RadioButton bind:selected={messageTypeValue} name="deleted" last>Deleted</RadioButton>
+			</div>
 		</Setting>
-		<Setting label="Text Wrapping (force to Twitch's width)" key="wrap" bind:value={wrapValue}>
-			<input type="checkbox" bind:checked={wrapValue} />
+		<Setting label="Maximum Width" key="max_width" bind:value={maxWidthValue}>
+			<div class="ml-auto flex">
+				<RadioButton bind:selected={maxWidthValue} name="off" first>Off</RadioButton>
+				<RadioButton bind:selected={maxWidthValue} name="twitch">Twitch</RadioButton>
+				<RadioButton bind:selected={maxWidthValue} name="custom" last>
+					Custom
+					{#if maxWidthValue == "custom"}
+						<Setting label="" key="custom_max_width" bind:value={customMaxWidthValue} minimal>
+							<input type="number" min="10" max="999" step="10" bind:value={customMaxWidthValue} class="w-10" />
+						</Setting>
+					{/if}
+				</RadioButton>
+			</div>
 		</Setting>
 	</div>
 	<hr />
