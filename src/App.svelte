@@ -82,7 +82,7 @@
 					<input type="number" bind:value={backgroundOpacityValue} min="0" max="1" step="0.1" class="w-9" />
 				</Setting>
 			</SettingsGroup>
-			<SettingsGroup label="Outline">
+			<SettingsGroup label="Outline" help="Outline will only render in the exported image">
 				<Setting label="Colour" key="outline.colour" bind:value={outlineColourValue} isChild>
 					<input type="color" bind:value={outlineColourValue} class="w-9" />
 				</Setting>
