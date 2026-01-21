@@ -8,9 +8,15 @@
 	import SettingsRow from "./lib/components/SettingsRow.svelte";
 	import RadioButton from "./lib/components/RadioButton.svelte";
 	import MessagePreview from "./lib/components/MessagePreview.svelte";
+	import ExportModal from "./lib/components/modals/ExportModal.svelte";
+	import PreferencesModal from "./lib/components/modals/PreferencesModal.svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
+	// svelte-ignore non_reactive_update
+	let exportModal: Modal;
+	// svelte-ignore non_reactive_update
+	let messagePreview: MessagePreview;
 
 	let usernameColourValue: string = $state("#ffffff");
 	let messageColourValue: string = $state("#ffffff");
@@ -21,32 +27,13 @@
 	let messageTypeValue: string = $state("default");
 	let maxWidthValue: string = $state("twitch");
 	let customMaxWidthValue: number = $state(340);
-	let alwaysOnTopValue: boolean = $state(true);
-	let backgorundPreviewValue: boolean = $state(true);
 
-	$inspect(maxWidthValue);
+	let backgorundPreviewValue: boolean = $state(true);
 
 	$effect(() => {
 		getCurrentWindow().setAlwaysOnTop($settings.always_on_top);
 	});
-
-	let factoryResetTimer: number | undefined;
-
-	function factoryReset() {
-		if (!factoryResetTimer) {
-			factoryResetTimer = setTimeout(() => {
-				$settings = {};
-				location.reload();
-			}, 1500);
-		}
-	}
-
-	function onMouseUp() {
-		if (factoryResetTimer) clearTimeout(factoryResetTimer);
-	}
 </script>
-
-<svelte:window onmouseup={onMouseUp} />
 
 <main class="flex h-full grow flex-col justify-between">
 	<div class="flex flex-col gap-2">
@@ -60,7 +47,7 @@
 				<img src="/garf.png" alt="" class="h-5" />
 			</div>
 			<div class="flex grow basis-0 justify-end">
-				<button class="group cursor-pointer" onclick={preferencesModal.open}>
+				<button class="group cursor-pointer" onclick={() => preferencesModal.open()}>
 					<SettingsIcon class="group-hover:stroke-twitch-text size-5 stroke-zinc-400" />
 				</button>
 			</div>
@@ -78,18 +65,18 @@
 		</Setting>
 		<SettingsRow>
 			<SettingsGroup label="Background">
-				<Setting label="Colour" key="background.colour" bind:value={backgroundColourValue} isChild>
+				<Setting label="Colour" key="background.colour" bind:value={backgroundColourValue} noBorder>
 					<input type="color" bind:value={backgroundColourValue} class="w-9" />
 				</Setting>
-				<Setting label="Opacity" key="background.opacity" bind:value={backgroundOpacityValue} isChild>
+				<Setting label="Opacity" key="background.opacity" bind:value={backgroundOpacityValue} noBorder>
 					<input type="number" bind:value={backgroundOpacityValue} min="0" max="1" step="0.1" class="w-9" />
 				</Setting>
 			</SettingsGroup>
 			<SettingsGroup label="Outline" help="Outline will only render in the exported image" disabled>
-				<Setting label="Colour" key="outline.colour" bind:value={outlineColourValue} isChild>
+				<Setting label="Colour" key="outline.colour" bind:value={outlineColourValue} noBorder>
 					<input type="color" bind:value={outlineColourValue} class="w-9" />
 				</Setting>
-				<Setting label="Thickness" key="outline.thickness" bind:value={outlineThicknessValue} isChild>
+				<Setting label="Thickness" key="outline.thickness" bind:value={outlineThicknessValue} noBorder>
 					<input type="number" bind:value={outlineThicknessValue} min="0" max="5" class="w-9" />
 				</Setting>
 			</SettingsGroup>
@@ -106,11 +93,12 @@
 				<RadioButton bind:selected={maxWidthValue} name="off" first>Off</RadioButton>
 				<RadioButton bind:selected={maxWidthValue} name="twitch">Twitch</RadioButton>
 				<RadioButton bind:selected={maxWidthValue} name="custom" last>
-					Custom
 					{#if $settings?.max_width == "custom"}
 						<Setting label="" key="custom_max_width" bind:value={customMaxWidthValue} minimal>
-							<input type="number" min="10" max="999" step="10" bind:value={customMaxWidthValue} class="w-10" />
+							<input type="number" min="10" max="999" step="10" bind:value={customMaxWidthValue} class="-mx-2 -my-1 w-12 px-1 outline-0!" />
 						</Setting>
+					{:else}
+						Custom
 					{/if}
 				</RadioButton>
 			</div>
@@ -123,28 +111,12 @@
 				<input type="checkbox" bind:checked={backgorundPreviewValue} />
 				Background Preview
 			</label>
-			<MessagePreview backgroundPreview={backgorundPreviewValue} bind:this={messagePreview} />
+			<MessagePreview bind:this={messagePreview} backgroundPreview={backgorundPreviewValue} />
 		</div>
-		<div class="ml-auto flex">
-			<button class="btn rounded-r-none!">Quick Export</button>
-			<button class="btn rounded-l-none!">Export...</button>
-		</div>
+		<button onclick={() => exportModal.open()} class="btn ml-auto">Export...</button>
 	</div>
 </main>
 
-<Modal bind:this={preferencesModal} class="flex flex-col gap-2">
-	<h1>Preferences</h1>
-	<Setting label="Always On Top" key="always_on_top" bind:value={alwaysOnTopValue} isChild>
-		<input type="checkbox" bind:checked={alwaysOnTopValue} />
-	</Setting>
-	<Setting label="Emote Cache" isChild>
-		<button class="btn">Clear</button>
-	</Setting>
-	<Setting label="Badge Cache" isChild>
-		<button class="btn">Clear</button>
-	</Setting>
-	<br />
-	<Setting label="Factory Reset" isChild>
-		<button onmousedown={factoryReset} class="btn btn-danger">Reset</button>
-	</Setting>
-</Modal>
+<PreferencesModal bind:modal={preferencesModal} />
+
+<ExportModal bind:modal={exportModal} preview={messagePreview} />
