@@ -9,12 +9,12 @@
 		label: string;
 		key?: string;
 		value?: any;
-		isChild?: boolean;
+		noBorder?: boolean;
 		minimal?: boolean;
 		class?: string;
 	};
 
-	let { children, label, key, value = $bindable(), isChild = false, minimal = false, class: _class = "" }: Props = $props();
+	let { children, label, key, value = $bindable(), noBorder: isChild = false, minimal = false, class: _class = "" }: Props = $props();
 
 	onMount(() => {
 		if (key != undefined) {
