@@ -28,4 +28,7 @@ export default defineConfig(async () => ({
 		},
 	},
 	plugins: [svelte(), tailwindcss()],
+	build: {
+		target: "esnext",
+	},
 }));

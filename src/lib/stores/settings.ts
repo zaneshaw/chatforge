@@ -1,22 +1,14 @@
 import { get, writable, type Writable } from "svelte/store";
+import { load } from "@tauri-apps/plugin-store";
 import { flatten, unflatten } from "flat";
 import _ from "lodash";
 
-export const settings: Writable<{ [key: string]: any }> = writable(getSettingsFromStorage());
+const tauriStore = await load("store.json", { defaults: { settings: {} }, autoSave: true });
 
-function getSettingsFromStorage() {
-	const storage = localStorage.getItem("settings");
+export const settings: Writable<{ [key: string]: any }> = writable(await tauriStore.get("settings"));
 
-	if (storage) {
-		return JSON.parse(storage);
-	}
-
-	localStorage.setItem("settings", "{}");
-	return {};
-}
-
-settings.subscribe((value: any) => {
-	localStorage.setItem("settings", JSON.stringify(value));
+settings.subscribe(async (value: any) => {
+	await tauriStore.set("settings", value);
 });
 
 export function getFlattenedSetting(flattenedKey: string) {
