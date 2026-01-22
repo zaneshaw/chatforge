@@ -10,9 +10,12 @@
 	import MessagePreview from "./lib/components/MessagePreview.svelte";
 	import ExportModal from "./lib/components/modals/ExportModal.svelte";
 	import PreferencesModal from "./lib/components/modals/PreferencesModal.svelte";
+	import PresetsModal from "./lib/components/modals/PresetsModal.svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
+	// svelte-ignore non_reactive_update
+	let presetsModal: Modal;
 	// svelte-ignore non_reactive_update
 	let exportModal: Modal;
 	// svelte-ignore non_reactive_update
@@ -28,7 +31,7 @@
 	let maxWidthValue: string = $state("twitch");
 	let customMaxWidthValue: number = $state(340);
 
-	let backgorundPreviewValue: boolean = $state(true);
+	let backgroundPreviewValue: boolean = $state(true);
 
 	$effect(() => {
 		getCurrentWindow().setAlwaysOnTop($settings.always_on_top);
@@ -39,7 +42,7 @@
 	<div class="flex flex-col gap-2">
 		<div class="between flex">
 			<div class="grow basis-0">
-				<button class="btn">Presets</button>
+				<button onclick={() => presetsModal.open()} class="btn">User Presets</button>
 			</div>
 			<div class="flex gap-2">
 				<img src="/garf.png" alt="" class="h-5" />
@@ -108,14 +111,15 @@
 	<div class="flex flex-col gap-2">
 		<div class="box relative h-62.5 w-full overflow-hidden">
 			<label class="btn absolute top-0 right-0 z-20 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
-				<input type="checkbox" bind:checked={backgorundPreviewValue} />
+				<input type="checkbox" bind:checked={backgroundPreviewValue} />
 				Background Preview
 			</label>
-			<MessagePreview bind:this={messagePreview} backgroundPreview={backgorundPreviewValue} />
+			<MessagePreview bind:this={messagePreview} backgroundPreview={backgroundPreviewValue} />
 		</div>
 		<button onclick={() => exportModal.open()} class="btn ml-auto">Export...</button>
 	</div>
 </main>
 
 <PreferencesModal bind:modal={preferencesModal} />
+<PresetsModal bind:modal={presetsModal} />
 <ExportModal bind:modal={exportModal} preview={messagePreview} />

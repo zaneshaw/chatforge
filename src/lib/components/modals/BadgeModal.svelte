@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { settings } from "../../stores/settings";
-	import { badges, getBadge } from "../../stores/badges";
+	import { badges, getBadgeUrl } from "../../stores/badges";
 	import Modal from "../Modal.svelte";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
@@ -17,7 +17,7 @@
 	<div class="flex gap-1">
 		{#each badges as badge}
 			<button onclick={() => addBadge(badge.id)} class="cursor-pointer w-6">
-				<img src={getBadge(badge.id, 2)} alt={badge.name} />
+				<img src={getBadgeUrl(badge.id, 2)} alt={badge.name} />
 			</button>
 		{/each}
 	</div>
