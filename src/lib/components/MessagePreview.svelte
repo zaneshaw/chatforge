@@ -123,7 +123,7 @@
 					<!-- svelte-ignore a11y_no_static_element_interactions -->
 					<span
 						bind:innerText={usernameValue}
-						contenteditable="true"
+						contenteditable="plaintext-only"
 						onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
 						onkeydown={(e) => {
 							if (e.key == "Enter" || e.key == " ") e.preventDefault();
@@ -142,7 +142,7 @@
 					<Setting label="" key="message.text" bind:value={messageValue} minimal>
 						<span
 							bind:innerText={messageValue}
-							contenteditable="true"
+							contenteditable="plaintext-only"
 							onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
 							onblur={() => {
 								messageValue = messageValue
