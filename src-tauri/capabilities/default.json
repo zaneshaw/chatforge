@@ -9,9 +9,10 @@
     "core:default",
     "core:window:allow-set-always-on-top",
     "opener:default",
-    "dialog:default",
-    "fs:write-files",
     "clipboard-manager:allow-write-image",
+    "store:default",
+    "process:default",
+    "fs:write-files",
     {
       "identifier": "fs:default",
       "allow": [
@@ -20,7 +21,6 @@
         }
       ]
     },
-    "store:default",
     "http:default",
     {
       "identifier": "http:default",
@@ -51,6 +51,7 @@
         }
       ],
       "deny": []
-    }
+    },
+    "log:default"
   ]
 }

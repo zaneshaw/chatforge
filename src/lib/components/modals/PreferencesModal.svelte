@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { getCurrentWindow } from "@tauri-apps/api/window";
-	import { settings } from "../../stores/settings";
+	import { relaunch } from "@tauri-apps/plugin-process";
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
 	import { clearBadgeCache } from "../../stores/badges";
+	import { getStore } from "@tauri-apps/plugin-store";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -12,9 +13,12 @@
 
 	function factoryReset() {
 		if (!factoryResetTimer) {
-			factoryResetTimer = setTimeout(() => {
-				$settings = {};
+			factoryResetTimer = setTimeout(async () => {
+				(await getStore("settings.json"))?.reset();
+				(await getStore("badge_cache.json"))?.reset();
+
 				location.reload();
+				await relaunch();
 			}, 1500);
 		}
 	}
@@ -24,7 +28,11 @@
 	}
 
 	$effect(() => {
-		getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
+		getCurrentWindow()
+			.setAlwaysOnTop(!alwaysOnTop)
+			.then(() => {
+				getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
+			});
 	});
 </script>
 
