@@ -5,6 +5,7 @@
 	import Setting from "../Setting.svelte";
 	import { clearBadgeCache } from "../../stores/badges";
 	import { getStore } from "@tauri-apps/plugin-store";
+	import { settings } from "../../stores/settings";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -14,7 +15,7 @@
 	function factoryReset() {
 		if (!factoryResetTimer) {
 			factoryResetTimer = setTimeout(async () => {
-				(await getStore("settings.json"))?.reset();
+				$settings = {};
 				await clearBadgeCache();
 
 				location.reload();
