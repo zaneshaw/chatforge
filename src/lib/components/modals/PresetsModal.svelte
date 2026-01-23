@@ -4,6 +4,8 @@
 	import { settings } from "../../stores/settings";
 	import Modal from "../Modal.svelte";
 	import { getBadge, getBadgeUrl } from "../../stores/badges";
+	import { get } from "svelte/store";
+	import { loading } from "../../stores/loading.svelte";
 
 	type Preset = {
 		username: {
@@ -47,9 +49,21 @@
 	}
 
 	function loadPreset(preset: Preset) {
-		$settings.username = preset.username;
-		$settings.message.colour = preset.messageColour;
-		$settings.badges = preset.badgeIds;
+		loading.label = "";
+		loading.showProgress = false;
+		loading.showProgressText = false;
+		loading.state = true;
+
+		settings.update((state) => {
+			const presetClone = structuredClone(preset);
+			state.username.text = presetClone.username.text;
+			state.username.colour = presetClone.username.colour;
+			state.message.colour = presetClone.messageColour;
+			state.badges = presetClone.badgeIds;
+
+			return state;
+		})
+
 		location.reload(); // scuffed
 	}
 
