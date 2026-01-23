@@ -85,7 +85,6 @@ export async function clearBadgeCache() {
 		state.last_badge_check = 0;
 		return state;
 	});
-
 }
 
 async function tryWriteToCache(id: string, name: string, provider: string, url: string) {
@@ -121,31 +120,37 @@ async function loadTwitchBadges() {
 	loading.showProgress = false;
 	loading.showProgressText = false;
 
-	const res = await fetch("https://www.streamdatabase.com/twitch/global-badges?sort_by=set_id&sort_direction=ascending", { method: "GET" });
-	const root = parse(await res.text());
-
-	const column = root.querySelector("div.grow.flex.m-auto.w-full > div.flex.flex-col");
-	const badgeContainers = column?.querySelectorAll("a.relative.bg-neutral-900.rounded.font-bold.uppercase");
-	if (badgeContainers) {
-		loading.progress = 0;
-		loading.max = badgeContainers.length;
-		loading.label = "Caching Twitch badges...";
-		loading.showProgress = true;
-		loading.showProgressText = true;
-
-		for await (const badgeContainer of badgeContainers) {
-			const imageElement = badgeContainer.querySelector("img");
-			if (imageElement) {
-				const src = imageElement.getAttribute("src");
-				if (src) {
-					const badgeId = src.split("/").at(-2) as string;
-
-					await tryWriteToCache(badgeId, "aga", "twitch", src);
+	const res = await fetch("https://gql.twitch.tv/gql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+		},
+		body: JSON.stringify({
+			query: `
+				query GlobalBadges {
+					badges {
+						setID
+						title
+						imageURL
+					}
 				}
-			}
+			`,
+		}),
+	});
+	const data = await res.json();
+	const badges = data.data.badges;
 
-			loading.progress++;
-		}
+	loading.progress = 0;
+	loading.max = badges.length;
+	loading.label = "Caching Twitch badges...";
+	loading.showProgress = true;
+	loading.showProgressText = true;
+
+	for await (const badge of badges) {
+		await tryWriteToCache(`twitch_${badge.imageURL.split("/").at(-2)}`, badge.title, "twitch", `${badge.imageURL.slice(0, -1)}3`);
+
+		loading.progress++;
 	}
 }
 
@@ -203,7 +208,19 @@ async function load7TVBadges() {
 	const res = await fetch("https://7tv.io/v3/gql", {
 		method: "POST",
 		body: JSON.stringify({
-			query: "query Cosmetics { cosmetics { badges { id tooltip host { url } } } }",
+			query: `
+				query Cosmetics {
+					cosmetics {
+						badges {
+							id
+							tooltip
+							host {
+								url
+							}
+						}
+					}
+				}
+			`,
 		}),
 	});
 	const data = await res.json();
