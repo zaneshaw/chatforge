@@ -6,6 +6,7 @@
 	import { clearBadgeCache } from "../../stores/badges";
 	import { getStore } from "@tauri-apps/plugin-store";
 	import { settings } from "../../stores/settings";
+	import { loading } from "../../stores/loading.svelte";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -15,11 +16,20 @@
 	function factoryReset() {
 		if (!factoryResetTimer) {
 			factoryResetTimer = setTimeout(async () => {
-				$settings = {};
-				await clearBadgeCache();
+				loading.progress = 0;
+				loading.max = 3;
+				loading.label = "Resetting...";
+				loading.showProgress = true;
+				loading.state = true;
 
-				location.reload();
-				await relaunch();
+				$settings = {};
+				loading.progress = 1;
+
+				await clearBadgeCache();
+				loading.progress = 2;
+
+				setTimeout(() => loading.progress = 3, 500);
+				setTimeout(() => location.reload(), 1000);
 			}, 1500);
 		}
 	}
