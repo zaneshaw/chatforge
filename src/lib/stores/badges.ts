@@ -1,5 +1,5 @@
 import { writeFile, mkdir, BaseDirectory } from "@tauri-apps/plugin-fs";
-import { join, dirname, appCacheDir } from "@tauri-apps/api/path";
+import { join, dirname, appDataDir } from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
 import { fetch } from "@tauri-apps/plugin-http";
@@ -100,14 +100,14 @@ async function tryWriteToCache(id: string, name: string, provider: string, url: 
 
 		const badgePath = await join("cache", "badges", provider, `${id}.${fileExtension}`);
 
-		await mkdir(await dirname(badgePath), { recursive: true, baseDir: BaseDirectory.AppCache });
-		await writeFile(badgePath, badgeBytes, { baseDir: BaseDirectory.AppCache });
+		await mkdir(await dirname(badgePath), { recursive: true, baseDir: BaseDirectory.AppData });
+		await writeFile(badgePath, badgeBytes, { baseDir: BaseDirectory.AppData });
 
 		await badgeCache.set(id, {
 			id: id,
 			name: name,
 			provider: provider,
-			path: await join(await appCacheDir(), badgePath),
+			path: await join(await appDataDir(), badgePath),
 			ts: now,
 		} as Badge);
 	}
