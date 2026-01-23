@@ -105,7 +105,7 @@
 								$settings.badges.splice(i, 1);
 								$settings.badges = $settings.badges;
 							}}
-							class="group/badge cursor-pointer items-center justify-center overflow-hidden"
+							class="group/badge cursor-pointer items-center justify-center overflow-hidden bg-contain"
 							style="background-image: url({getBadgeUrl(badgeId, 1)});"
 						>
 							<div class="size-full bg-black/50 not-group-hover/badge:hidden"></div>

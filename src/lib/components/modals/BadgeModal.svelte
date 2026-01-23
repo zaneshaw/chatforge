@@ -34,7 +34,7 @@
 		let recentBadges = ($settings.recent_badges as string[]) ?? [];
 		if (recentBadges.includes(id)) recentBadges.splice(recentBadges.indexOf(id), 1);
 		recentBadges.unshift(id);
-		recentBadges = recentBadges.slice(0, 30);
+		recentBadges = recentBadges.slice(0, 9 * 5);
 		$settings.recent_badges = recentBadges;
 	}
 </script>
@@ -55,9 +55,11 @@
 
 {#snippet badgeButton(badge: Badge)}
 	{#if badge}
-		<button onclick={() => addBadge(badge.id)} class="cursor-pointer rounded-xs p-px outline-zinc-700 hover:outline-1">
-			<img src={getBadgeUrl(badge.id, 1)} alt={badge.name} />
-		</button>
+		<div class="aspect-square">
+			<button onclick={() => addBadge(badge.id)} class="w-6 cursor-pointer rounded-xs p-px outline-zinc-700 hover:outline-1">
+				<img src={getBadgeUrl(badge.id, 1)} alt={badge.name} />
+			</button>
+		</div>
 	{/if}
 {/snippet}
 
@@ -77,17 +79,17 @@
 					<div class="flex">
 						<input type="text" placeholder="Search" class="grow" />
 					</div>
-					<div class="flex flex-wrap gap-0.5">
+					<div class="grid grid-cols-8">
 						{#each badges.filter((badge) => badge.provider == currentTab.id) as badge}
 							{@render badgeButton(badge)}
 						{/each}
 					</div>
 				{:else if currentTabId == "recent"}
-					<div class="flex flex-wrap gap-0.5">
+					<div class="grid grid-cols-9">
 						{#each $settings.recent_badges as badgeId}
 							{@render badgeButton(getBadge(badgeId) as Badge)}
 						{:else}
-							<span class="text-zinc-500">No recent badges</span>
+							<span class="text-zinc-500 w-max">No recent badges</span>
 						{/each}
 					</div>
 				{:else if currentTabId == "channel"}
