@@ -56,7 +56,7 @@
 {#snippet badgeButton(badge: Badge)}
 	{#if badge}
 		<div class="aspect-square">
-			<button onclick={() => addBadge(badge.id)} class="w-6 cursor-pointer rounded-xs p-px outline-zinc-700 hover:outline-1">
+			<button onclick={() => addBadge(badge.id)} class="flex size-6 cursor-pointer items-center justify-center rounded-xs p-px outline-zinc-700 hover:outline-1">
 				<img src={getBadgeUrl(badge.id, 1)} alt={badge.name} />
 			</button>
 		</div>
@@ -75,12 +75,12 @@
 		<div class="relative flex grow flex-col gap-1 overflow-y-auto px-px" style="height: {tabsHeight}px;">
 			{#if currentTab}
 				<h2>{currentTab.label}</h2>
-				{#if currentTab.isProvider}
+				{#if currentTabId == "twitch"}
 					<div class="flex">
 						<input type="text" placeholder="Search" class="grow" />
 					</div>
 					<div class="grid grid-cols-8">
-						{#each badges.filter((badge) => badge.provider == currentTab.id) as badge}
+						{#each badges.filter((badge) => badge.provider == "twitch") as badge}
 							{@render badgeButton(badge)}
 						{/each}
 					</div>
@@ -99,6 +99,12 @@
 						<button class="btn rounded-l-none! p-1!"><RefreshCwIcon class="size-3.5" /></button>
 					</div>
 					<span class="text-zinc-500">Not implemented</span>
+				{:else if currentTab.isProvider}
+					<div class="grid grid-cols-8">
+						{#each badges.filter((badge) => badge.provider == currentTab.id) as badge}
+							{@render badgeButton(badge)}
+						{/each}
+					</div>
 				{/if}
 			{:else}
 				<span class="text-zinc-500">Tab error</span>

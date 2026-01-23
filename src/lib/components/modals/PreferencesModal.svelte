@@ -3,6 +3,7 @@
 	import { settings } from "../../stores/settings";
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
+	import { clearBadgeCache } from "../../stores/badges";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -38,7 +39,7 @@
 		<button class="btn">Clear</button>
 	</Setting>
 	<Setting label="Badge Cache" noBorder>
-		<button class="btn">Clear</button>
+		<button onclick={clearBadgeCache} class="btn">Clear</button>
 	</Setting>
 	<br />
 	<Setting label="Factory Reset" noBorder>
