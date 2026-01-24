@@ -9,13 +9,16 @@
 
 	let { modal = $bindable(), preview }: { modal: Modal; preview: MessagePreview } = $props();
 
-	let copyToClipboardValue: boolean = $state(true);
+	let copyToClipboardValue: boolean = $state(false);
 	let outputDirectoryValue: string = $state("");
 	let exportResolutionValue: string = $state("fit");
 	let customExportWidthValue: number = $state(1920);
 	let customExportHeightValue: number = $state(1080);
 	let openDirectoryValue: boolean = $state(false);
 	let scaleValue: number = $state(1);
+	let fileFormatValue: "png" | "webp" | "jpeg" = $state("png");
+	let webpQualityValue: number = $state(80);
+	let jpegQualityValue: number = $state(80);
 
 	let exporting: boolean = $state(false);
 
@@ -70,11 +73,36 @@
 		<input type="number" bind:value={scaleValue} min="1" max="10" class="w-9" />
 	</Setting>
 	<Setting label="Copy to Clipboard" key="export.copy_to_clipboard" bind:value={copyToClipboardValue} noBorder>
-		<input type="checkbox" bind:checked={copyToClipboardValue} />
+		<input type="checkbox" bind:checked={copyToClipboardValue} disabled />
 	</Setting>
 	<Setting label="Open in Explorer" key="export.open_directory" bind:value={openDirectoryValue} noBorder>
 		<input type="checkbox" bind:checked={openDirectoryValue} />
 	</Setting>
+	<div>
+		<Setting label="File Format" key="export.file_format" bind:value={fileFormatValue} noBorder>
+			<div class="ml-auto flex">
+				<RadioButton bind:selected={fileFormatValue} name="png" first>PNG</RadioButton>
+				<RadioButton bind:selected={fileFormatValue} name="webp">WebP</RadioButton>
+				<RadioButton bind:selected={fileFormatValue} name="jpeg" last>JPEG</RadioButton>
+			</div>
+		</Setting>
+		{#if fileFormatValue == "webp"}
+			<Setting label="Quality" key="export.webp_quality" bind:value={webpQualityValue} noBorder class="ml-1.5">
+				<div class="flex items-center gap-1">
+					<input type="range" min="20" max="100" step="5" bind:value={webpQualityValue} />
+					<span class="w-8">{webpQualityValue}%</span>
+				</div>
+			</Setting>
+		{/if}
+		{#if fileFormatValue == "jpeg"}
+			<Setting label="Quality" key="export.jpeg_quality" bind:value={jpegQualityValue} noBorder class="ml-1.5">
+				<div class="flex items-center gap-1">
+					<input type="range" min="20" max="100" step="5" bind:value={jpegQualityValue} />
+					<span class="w-8">{jpegQualityValue}%</span>
+				</div>
+			</Setting>
+		{/if}
+	</div>
 	<br />
 	<div class="ml-auto flex">
 		{#if exporting}

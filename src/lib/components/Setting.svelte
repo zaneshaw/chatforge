@@ -12,7 +12,7 @@
 		class?: string;
 	};
 
-	let { children, label, key, value = $bindable(), noBorder: isChild = false, minimal = false, class: _class = "" }: Props = $props();
+	let { children, label, key, value = $bindable(), noBorder = false, minimal = false, class: _class = "" }: Props = $props();
 
 	onMount(() => {
 		if (key != undefined) {
@@ -27,7 +27,6 @@
 
 	$effect(() => {
 		if (key != undefined) {
-			console.log(key, value);
 			setFlattenedSetting(key, value);
 		}
 	});
@@ -35,7 +34,7 @@
 
 {#if minimal}
 	{@render children?.()}
-{:else if isChild}
+{:else if noBorder}
 	<div class="between h-6 {_class}">
 		<span>{label}</span>
 		{@render children?.()}
