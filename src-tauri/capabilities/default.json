@@ -12,6 +12,7 @@
     "clipboard-manager:allow-write-image",
     "store:default",
     "process:default",
+    "dialog:default",
     "fs:write-files",
     {
       "identifier": "fs:default",

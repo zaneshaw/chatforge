@@ -74,10 +74,18 @@ input[type="checkbox"] {
 	&:checked::after {
 		@apply absolute size-3/4 rounded-xs bg-white content-[""];
 	}
+
+	&[disabled] {
+		@apply pointer-events-none outline-zinc-800;
+	}
+
+	&[disabled]:checked::after {
+		@apply bg-zinc-600!;
+	}
 }
 
 input[type="number"] {
-	@apply rounded-xs outline-1 outline-zinc-700;
+	@apply rounded-xs pl-1 outline-1 outline-zinc-700;
 
 	&::-webkit-inner-spin-button,
 	&::-webkit-outer-spin-button {

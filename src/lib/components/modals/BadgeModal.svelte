@@ -55,7 +55,7 @@
 
 {#snippet badgeButton(badge: Badge)}
 	{#if badge}
-		<div class="aspect-square">
+		<div class="flex aspect-square">
 			<button onclick={() => addBadge(badge.id)} class="flex size-6 cursor-pointer items-center justify-center rounded-xs p-px outline-zinc-700 hover:outline-1">
 				<img src={getBadgeUrl(badge.id, 1)} alt={badge.name} />
 			</button>
