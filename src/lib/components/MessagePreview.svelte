@@ -110,7 +110,16 @@
 		{#await document.fonts.ready}
 			<span class="text-zinc-600">loading font...</span>
 		{:then}
-			<div bind:this={previewElement} class="z-10 px-4 py-1 leading-5.5" style="max-width: {maxWidth ? `${maxWidth}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};">
+			<div
+				bind:this={previewElement}
+				class:first-message={$settings.message_type == "first"}
+				class:deleted-message={$settings.message_type == "deleted"}
+				class="relative z-10 box-content border-[rgb(200,50,200)] px-4 py-1 leading-5.5 [.first-message]:border-x-2 [.first-message]:bg-[rgba(200,50,200,0.1)] [.first-message]:py-2.5"
+				style="max-width: {maxWidth ? `${maxWidth - 36}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};"
+			>
+				{#if $settings.message_type == "first"}
+					<span class="absolute -top-0.75 right-4 text-[8.8px] font-semibold text-[rgba(200,50,200)] uppercase">First Message</span>
+				{/if}
 				<span class="*:mr-0.75 *:mb-0.5 *:inline-flex *:size-4.5 *:align-middle">
 					{#each $settings?.badges as badgeId, i}
 						<button
@@ -149,7 +158,7 @@
 						style="color: {$settings?.username?.colour};"
 					></span>
 				</Setting><span>:</span>
-				<span class="wrap-break-word">
+				<span class:deleted-message={$settings.message_type == "deleted"} class="wrap-break-word [.deleted-message]:opacity-50 [.deleted-message]:*:line-through">
 					<Setting label="" key="message.text" bind:value={messageValue} minimal>
 						<span
 							bind:innerText={messageValue}
@@ -167,7 +176,9 @@
 							class="editable"
 							style="color: {$settings?.message?.colour};"
 						></span>
-					</Setting>
+					</Setting>{#if $settings.message_type == "deleted"}
+						<span class="inline-block italic no-underline!">—Deleted</span>
+					{/if}
 				</span>
 			</div>
 		{/await}
