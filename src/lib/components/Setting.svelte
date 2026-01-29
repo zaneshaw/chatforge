@@ -9,10 +9,11 @@
 		value?: any;
 		noBorder?: boolean;
 		minimal?: boolean;
+		disabled?: boolean;
 		class?: string;
 	};
 
-	let { children, label, key, value = $bindable(), noBorder = false, minimal = false, class: _class = "" }: Props = $props();
+	let { children, label, key, value = $bindable(), noBorder = false, minimal = false, disabled = false, class: _class = "" }: Props = $props();
 
 	onMount(() => {
 		if (key != undefined) {
@@ -40,7 +41,10 @@
 		{@render children?.()}
 	</div>
 {:else}
-	<div class="box between h-10 p-2 {_class}">
+	<div class:disabled class="box between relative h-10 overflow-hidden p-2 [.disabled]:pointer-events-none [.disabled]:outline-zinc-900! {_class}">
+		{#if disabled}
+			<div class="absolute top-0 left-0 size-full bg-zinc-950/80"></div>
+		{/if}
 		<h2>{label}</h2>
 		{@render children?.()}
 	</div>
