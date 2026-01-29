@@ -6,6 +6,7 @@
 	import { getBadge, getBadgeUrl } from "../../stores/badges";
 	import { get } from "svelte/store";
 	import { loading } from "../../stores/loading.svelte";
+	import BadgeImage from "../BadgeImage.svelte";
 
 	type Preset = {
 		username: {
@@ -89,10 +90,7 @@
 				<button onclick={() => loadPreset(preset)} class="group relative flex grow cursor-pointer items-center overflow-hidden rounded-l-xs p-2 outline-1 outline-zinc-700">
 					<div class="mx-auto flex items-center gap-0.75 text-sm">
 						{#each preset.badgeIds as badgeId}
-							{@const badge = getBadge(badgeId)}
-							{#if badge}
-								<img class="w-4.5" src={getBadgeUrl(badge.id, 1)} alt={badge.name} />
-							{/if}
+							<BadgeImage {badgeId} />
 						{/each}
 						<div class="flex">
 							<span class="truncate font-bold" style="color: {preset.username.colour}">{preset.username.text}</span>
