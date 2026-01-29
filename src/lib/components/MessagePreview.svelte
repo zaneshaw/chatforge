@@ -11,6 +11,7 @@
 	import { PlusIcon, XIcon } from "@lucide/svelte";
 	import { onMount } from "svelte";
 	import { getBadgeUrl } from "../stores/badges";
+	import BadgeImage from "./BadgeImage.svelte";
 
 	type Props = {
 		backgroundPreview: boolean;
@@ -132,10 +133,10 @@
 								$settings.badges.splice(i, 1);
 								$settings.badges = $settings.badges;
 							}}
-							class="group/badge cursor-pointer items-center justify-center overflow-hidden bg-contain"
-							style="background-image: url({getBadgeUrl(badgeId, 1)});"
+							class="group/badge relative cursor-pointer items-center justify-center overflow-hidden"
 						>
-							<div class="size-full bg-black/50 not-group-hover/badge:hidden"></div>
+							<BadgeImage {badgeId} />
+							<div class="absolute size-full bg-black/50 not-group-hover/badge:hidden"></div>
 							<XIcon class="absolute stroke-white stroke-3 p-1.25 not-group-hover/badge:hidden" />
 						</button>
 					{/each}<button
