@@ -132,5 +132,5 @@ input[type="text"] {
 }
 
 .editable {
-	@apply min-w-0.75 cursor-pointer rounded-xs outline-0 outline-zinc-700 hover:outline-1 focus:cursor-text focus:outline-1 focus:outline-zinc-600;
+	@apply min-w-0.75 cursor-pointer rounded-xs outline-0 outline-zinc-700 focus:cursor-text focus:outline-1 focus:outline-zinc-600;
 }
