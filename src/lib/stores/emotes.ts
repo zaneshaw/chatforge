@@ -51,7 +51,12 @@ export async function loadEmotes() {
 	if (!_settings.last_emote_check || now >= _settings.last_emote_check + checkCacheInterval) {
 		await loadTwitchGlobalEmotes();
 		if (_settings.emotes.channel != undefined) {
-			await loadTwitchEmotes(_settings.emotes.channel);
+			await clearEmoteProviderCache("twitch");
+			if (_settings.emotes.twitch) {
+				await loadTwitchEmotes(_settings.emotes.channel);
+			} else {
+				// await clearEmoteProviderCache("twitch");
+			}
 		}
 
 		settings.update((state) => {
@@ -85,6 +90,16 @@ export async function clearEmoteCache() {
 		state.last_emote_check = 0;
 		return state;
 	});
+}
+
+// todo: delete file cache
+export async function clearEmoteProviderCache(provider: EmoteProvider) {
+	for (const [key, emote] of (await emoteCache.entries()) as [key: string, emote: Emote][]) {
+		if (emote.provider == provider) {
+			await emoteCache.delete(key);
+		}
+	}
+	await emoteCache.save();
 }
 
 async function cacheEmote(id: string, token: string, provider: EmoteProvider, fileName: string, url: string, data?: any) {
