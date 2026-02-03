@@ -151,7 +151,7 @@ async function loadTwitchBadges() {
 	loading.showProgressText = true;
 
 	for await (const badge of badges) {
-		await tryWriteToCache(`twitch_${badge.imageURL.split("/").at(-2)}`, badge.title, "twitch", `${badge.imageURL.slice(0, -1)}3`);
+		await tryWriteToCache(badge.imageURL.split("/").at(-2), badge.title, "twitch", `${badge.imageURL.slice(0, -1)}3`);
 
 		loading.progress++;
 	}

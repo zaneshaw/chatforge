@@ -12,11 +12,14 @@
 	import ExportModal from "./lib/components/modals/ExportModal.svelte";
 	import PreferencesModal from "./lib/components/modals/PreferencesModal.svelte";
 	import PresetsModal from "./lib/components/modals/PresetsModal.svelte";
+	import EmotesModal from "./lib/components/modals/EmotesModal.svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
 	// svelte-ignore non_reactive_update
 	let presetsModal: Modal;
+	// svelte-ignore non_reactive_update
+	let emotesModal: Modal;
 	// svelte-ignore non_reactive_update
 	let exportModal: Modal;
 	// svelte-ignore non_reactive_update
@@ -79,8 +82,8 @@
 					<input type="color" bind:value={messageColourValue} class="w-9" />
 				</Setting>
 			</SettingsRow>
-			<Setting label="Emotes" disabled>
-				<button class="btn">Configure Emotes</button>
+			<Setting label="Emotes">
+				<button onclick={() => emotesModal.open()} class="btn">Configure Emotes</button>
 			</Setting>
 			<SettingsRow>
 				<SettingsGroup label="Background">
@@ -138,5 +141,6 @@
 
 	<PreferencesModal bind:modal={preferencesModal} />
 	<PresetsModal bind:modal={presetsModal} />
+	<EmotesModal bind:modal={emotesModal} />
 	<ExportModal bind:modal={exportModal} preview={messagePreview} />
 {/if}
