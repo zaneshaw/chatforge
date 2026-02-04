@@ -53,6 +53,14 @@
 					{/each}
 				</div>
 			</div>
+			<div>
+				<h2>{$settings.emotes.channel}'s 7TV Emotes</h2>
+				<div class="flex flex-wrap gap-0.5">
+					{#each allEmotes.filter((emote) => emote.provider == "7tv") as emote}
+						{@render emoteButton(emote)}
+					{/each}
+				</div>
+			</div>
 		{/if}
 		<div>
 			<h2>Global Twitch Emotes</h2>

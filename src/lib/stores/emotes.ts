@@ -52,11 +52,13 @@ export async function loadEmotes() {
 		await loadTwitchGlobalEmotes();
 		if (_settings?.emotes?.channel != undefined) {
 			await clearEmoteProviderCache("twitch");
+			await clearEmoteProviderCache("7tv");
 			if (_settings.emotes.twitch) {
 				await loadTwitchEmotes(_settings.emotes.channel);
 			} else {
 				// await clearEmoteProviderCache("twitch");
 			}
+			if (_settings.emotes["7tv"]) await load7TVEmotes(_settings.emotes.channel);
 		}
 
 		settings.update((state) => {
@@ -69,6 +71,8 @@ export async function loadEmotes() {
 		loading.label = "Done!";
 		loading.showProgressText = false;
 	}
+
+	await load7TVEmotes(_settings.emotes.channel);
 
 	const cached = (await emoteCache.values()) as Emote[];
 	const sorted = cached.sort((a, b) => a.token.localeCompare(b.token, "en"));
@@ -211,6 +215,30 @@ async function loadTwitchEmotes(channel: string) {
 		await cacheEmote(emote.id, emote.token, "twitch", `${emote.id}.gif`, `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/1.0`, {
 			channel: channel,
 			tier: emote.subscriptionTier,
+		});
+
+		loading.progress++;
+	}
+}
+
+async function load7TVEmotes(channel: string) {
+	loading.label = `Getting list of ${channel}'s 7TV emotes...`;
+	loading.showProgress = false;
+	loading.showProgressText = false;
+
+	const res = await fetch("https://7tv.io/v3/users/twitch/169491306");
+	const data = await res.json();
+	const emotes = data.emote_set.emotes;
+
+	loading.progress = 0;
+	loading.max = emotes.length;
+	loading.label = `Caching ${channel}'s 7TV emotes...`;
+	loading.showProgress = true;
+	loading.showProgressText = true;
+
+	for await (const emote of emotes) {
+		await cacheEmote(emote.data.id, emote.name, "7tv", `${emote.data.id}.avif`, `${emote.data.host.url}/1x.avif`, {
+			channel: channel,
 		});
 
 		loading.progress++;

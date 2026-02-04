@@ -73,7 +73,7 @@
 		<input bind:this={bttvInput} type="checkbox" checked={$settings.emotes?.bttv} disabled />
 	</Setting>
 	<Setting label="7TV" noBorder>
-		<input bind:this={seventvInput} type="checkbox" checked={$settings.emotes?.["7tv"]} disabled />
+		<input bind:this={seventvInput} type="checkbox" checked={$settings.emotes?.["7tv"]} />
 	</Setting>
 	<button onclick={saveSettings} class="btn ml-auto">Apply</button>
 </Modal>
