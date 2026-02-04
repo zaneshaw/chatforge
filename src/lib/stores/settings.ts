@@ -1,6 +1,5 @@
-import { get, writable, type Writable } from "svelte/store";
 import { flatten, unflatten } from "flat";
-import _ from "lodash";
+import { writable, type Writable } from "svelte/store";
 
 export const settings: Writable<{ [key: string]: any }> = writable(getSettingsFromStorage());
 
@@ -18,21 +17,3 @@ function getSettingsFromStorage() {
 settings.subscribe((value: any) => {
 	localStorage.setItem("settings", JSON.stringify(value));
 });
-
-export function getFlattenedSetting(flattenedKey: string) {
-	const flattened = flatten(get(settings)) as any;
-	if (flattenedKey in flattened) {
-		return flattened[flattenedKey];
-	}
-}
-
-export function setFlattenedSetting(flattenedKey: string, value: any) {
-	settings.update((state) =>
-		_.merge(
-			state,
-			unflatten({
-				[flattenedKey]: value,
-			}),
-		),
-	);
-}

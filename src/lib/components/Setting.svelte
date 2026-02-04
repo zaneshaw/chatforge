@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { getFlattenedSetting, setFlattenedSetting } from "../stores/settings";
+	import { settings } from "../stores/settings";
+	import { flatten, unflatten } from "flat";
+	import _ from "lodash";
 
 	type Props = {
 		children: any;
@@ -16,18 +18,23 @@
 
 	onMount(() => {
 		if (key != undefined) {
-			const stored = getFlattenedSetting(key);
-			if (stored != undefined) {
-				value = stored;
-			} else {
-				setFlattenedSetting(key, value);
+			const flattened = flatten($settings) as any;
+			if (key in flattened) {
+				value = flattened[key];
 			}
 		}
 	});
 
 	$effect(() => {
 		if (key != undefined) {
-			setFlattenedSetting(key, value);
+			settings.update((state) =>
+				_.merge(
+					state,
+					unflatten({
+						[key]: value,
+					}),
+				),
+			);
 		}
 	});
 </script>

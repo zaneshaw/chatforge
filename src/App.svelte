@@ -118,4 +118,5 @@
 </main>
 
 <PreferencesModal bind:modal={preferencesModal} />
+
 <ExportModal bind:modal={exportModal} preview={messagePreview} />
