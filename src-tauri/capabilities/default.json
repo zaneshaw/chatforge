@@ -20,19 +20,6 @@
         }
       ]
     },
-    "store:default",
-    "http:default",
-    {
-      "identifier": "http:default",
-      "allow": [
-        {
-          "url": "https://www.streamdatabase.com"
-        },
-        {
-          "url": "https://static-cdn.jtvnw.net"
-        }
-      ],
-      "deny": []
-    }
+    "store:default"
   ]
 }
