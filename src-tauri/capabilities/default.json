@@ -7,9 +7,51 @@
   ],
   "permissions": [
     "core:default",
+    "core:window:allow-set-always-on-top",
     "opener:default",
+    "clipboard-manager:allow-write-image",
+    "store:default",
+    "process:default",
     "dialog:default",
     "fs:write-files",
-    "clipboard-manager:allow-write-image"
+    {
+      "identifier": "fs:default",
+      "allow": [
+        {
+          "path": "**"
+        }
+      ]
+    },
+    "http:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://gql.twitch.tv/gql"
+        },
+        {
+          "url": "https://static-cdn.jtvnw.net"
+        },
+        {
+          "url": "https://api.frankerfacez.com"
+        },
+        {
+          "url": "https://cdn.frankerfacez.com"
+        },
+        {
+          "url": "https://api.betterttv.net"
+        },
+        {
+          "url": "https://cdn.betterttv.net"
+        },
+        {
+          "url": "https://7tv.io/v3/gql"
+        },
+        {
+          "url": "https://cdn.7tv.app"
+        }
+      ],
+      "deny": []
+    }
   ]
 }

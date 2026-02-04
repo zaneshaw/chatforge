@@ -1,6 +1,4 @@
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import "tailwindcss";
 
 @font-face {
 	font-family: Inter;
@@ -12,224 +10,127 @@
 	src: url("/made extrabold.otf");
 }
 
-:root {
-	@apply bg-neutral-100 text-neutral-900;
-
-	font-family: Inter, sans-serif;
-	font-size: 16px;
-	line-height: 24px;
-	font-weight: 400;
-
-	user-select: none;
+@theme {
+	--color-twitch-background: #0e0e10;
+	--color-twitch-background-light: #18181b;
+	--color-twitch-text: #efeff1;
 }
 
-html {
-	margin: 12px;
+:root {
+	color-scheme: dark;
 }
 
 body {
-	margin: 0px;
+	@apply bg-twitch-background text-twitch-text box-content flex h-screen flex-col font-[Inter,sans-serif] text-xs select-none;
 }
 
-h1,
-h2,
-h3 {
-	margin: 0px;
+main {
+	@apply m-3;
+}
+
+::selection {
+	@apply bg-zinc-600/75;
+}
+
+hr {
+	@apply border-zinc-800;
 }
 
 h1 {
-	font-size: 20px;
+	@apply text-sm font-medium;
 }
 
 h2 {
-	font-size: 18px;
+	@apply font-medium;
 }
 
-h3 {
-	font-size: 16px;
-}
-
-input[type="text"] {
-	height: 18px;
-	border: 1px solid black;
-}
-
-label:has(input[type="checkbox"]) {
-	width: fit-content;
-	cursor: pointer;
+::placeholder {
+	@apply font-light text-zinc-500;
 }
 
 input[type="color"] {
-	-webkit-appearance: none;
-	appearance: none;
-	border: 1px solid black;
-	width: 22px;
-	height: 22px;
-	padding: 1px;
-	cursor: pointer;
-}
+	@apply h-4 min-w-4 cursor-pointer;
 
-input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
-}
+	&::-webkit-color-swatch-wrapper {
+		@apply p-0;
+	}
 
-input[type="color"]::-webkit-color-swatch {
-	border: none;
-}
-
-button {
-	width: min-content;
-}
-
-.badge-selector {
-	height: 22px;
-	width: 22px;
-	background-color: #dbdbdb;
-	cursor: pointer;
-	outline: none;
-	border: 0;
-}
-
-.badge-selector[src] {
-	background-color: transparent !important;
+	&::-webkit-color-swatch {
+		@apply rounded-xs border-zinc-700;
+	}
 }
 
 input[type="range"] {
-	max-width: 50%;
-	cursor: pointer;
+	@apply h-1 w-24 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
+
+	&::-webkit-slider-thumb {
+		@apply size-2.5 appearance-none rounded-xs bg-white;
+	}
 }
 
-.transparent-image {
-	background-image: url("/transparent.png");
-	background-position: center;
-	background-size: 22px;
-	image-rendering: pixelated;
+input[type="checkbox"] {
+	@apply relative flex size-3.5 cursor-pointer appearance-none items-center justify-center rounded-xs bg-zinc-900 outline-1 outline-zinc-700;
+
+	&:checked::after {
+		@apply absolute size-3/4 rounded-xs bg-white content-[""];
+	}
+
+	&[disabled] {
+		@apply pointer-events-none outline-zinc-800;
+	}
+
+	&[disabled]:checked::after {
+		@apply bg-zinc-600!;
+	}
 }
 
-/* .seventv-user-message.has-highlight[data-highlight-style="0"] .seventv-chat-message-highlight-label[data-v-43cb0e29]::after {
-	height: 0;
-	content: attr(data-highlight-label);
-	display: grid;
-	width: 100%;
-	justify-content: end;
-	color: var(--seventv-highlight-color);
-	transform: translateY(-1.5em);
-	font-weight: 600;
-	text-transform: uppercase;
-	font-size: .88rem;
-} */
+input[type="number"] {
+	@apply rounded-xs pl-1 outline-1 outline-zinc-700;
 
-#preview {
-	position: relative;
-	background-color: #18181b;
-	outline: 1px solid black;
-	flex-grow: 1;
-	user-select: text;
-
-	#preview-background-container {
-		position: relative;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-
-		> * {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			width: 100%;
-			height: 100%;
-		}
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		@apply cursor-pointer opacity-100;
 	}
 
-	#preview-message-container {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-
-		overflow: hidden;
-
-		paint-order: stroke fill;
-
-		#preview-message {
-			position: absolute;
-
-			font-family: Inter;
-			font-size: 14px;
-			font-weight: 400;
-			display: flex;
-			align-items: center;
-			width: max-content;
-			height: max-content;
-
-			&.preview-message-highlight {
-				border: 2px solid #c832c8;
-				border-top: none;
-				border-bottom: none;
-				margin: 0px -2px;
-				padding: 0px 17.5px;
-			}
-
-			&.preview-message-highlight::after {
-				content: "first message";
-				position: absolute;
-				top: -3px;
-				right: 18px;
-				color: #c832c8;
-				font-family: Inter;
-				font-weight: 600;
-				font-size: 6.5pt;
-				text-transform: uppercase;
-			}
-
-			&.preview-message-highlight #preview-message-highlight-background {
-				background-color: #c832c81a;
-				width: 100%;
-				height: 100%;
-				position: absolute;
-				left: 0px;
-				top: 0px;
-			}
-
-			#preview-message-content {
-				line-height: 22px;
-				overflow-wrap: break-word;
-
-				box-sizing: border-box;
-				padding: 10px 0px;
-
-				z-index: 2;
-
-				#preview-message-author {
-					font-weight: 700;
-				}
-
-				#preview-message-body {
-					display: inline-flex;
-					gap: 4px;
-					align-items: center;
-
-					img {
-						height: 28px;
-						margin: -999px 0px;
-					}
-				}
-			}
-
-			#preview-message-badges {
-				width: min-content;
-				display: inline-flex;
-				vertical-align: middle;
-				margin-right: -4px;
-
-				img {
-					width: 18px;
-					height: 18px;
-					margin: 0px 3px 2px 0px;
-				}
-			}
-		}
+	&.no-spinner::-webkit-outer-spin-button,
+	&.no-spinner::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
 	}
+}
+
+input[type="text"] {
+	@apply rounded-xs px-1 py-1 outline-1 outline-zinc-700;
+}
+
+.box {
+	@apply bg-twitch-background-light rounded-xs outline-1 outline-zinc-800;
+}
+
+.btn {
+	@apply bg-twitch-background-light w-max cursor-pointer rounded-xs px-2 py-1 outline-1 outline-zinc-700 hover:bg-zinc-800 active:bg-zinc-700 active:outline-zinc-600;
+
+	&[disabled] {
+		@apply pointer-events-none text-zinc-500 outline-zinc-800;
+	}
+}
+
+.between {
+	@apply flex items-center justify-between;
+}
+
+.btn-danger {
+	@apply relative z-10 hover:bg-red-950 active:bg-red-950;
+
+	&::before {
+		@apply absolute top-0 left-0 -z-10 h-full w-0 bg-red-700! content-[""];
+	}
+
+	&:active::before {
+		@apply w-full transition-[width] duration-1500 ease-[ease-out];
+	}
+}
+
+.editable {
+	@apply min-w-0.75 cursor-pointer rounded-xs outline-0 outline-zinc-700 focus:cursor-text focus:outline-1 focus:outline-zinc-600;
 }
