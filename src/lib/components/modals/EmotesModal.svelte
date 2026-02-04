@@ -4,6 +4,7 @@
 	import { settings } from "../../stores/settings";
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
+	import { twitchLoginExists } from "../../utils";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -12,30 +13,6 @@
 	let ffzInput: HTMLInputElement;
 	let bttvInput: HTMLInputElement;
 	let seventvInput: HTMLInputElement;
-
-	async function twitchLoginExists(login: string) {
-		const res = await fetch("https://gql.twitch.tv/gql", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
-			},
-			body: JSON.stringify({
-				query: `
-					query User($login: String!) {
-						user(login: $login) {
-							id
-						}
-					}
-				`,
-				variables: { login },
-			}),
-		});
-
-		const user = (await res.json()).data.user;
-
-		return user.id != "";
-	}
 
 	async function saveSettings() {
 		const channel = channelInput.value.trim().toLowerCase();

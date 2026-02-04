@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { settings } from "../../stores/settings";
-	import { allBadges, getBadge, getBadgeUrl, type Badge } from "../../stores/badges";
+	import { allBadges, getBadge, getBadgeUrl, loadTwitchChannelBadges, type Badge } from "../../stores/badges";
 	import Modal from "../Modal.svelte";
 	import { onMount, type Component } from "svelte";
-	import { AsteriskIcon, ClockIcon, RefreshCwIcon } from "@lucide/svelte";
+	import { AsteriskIcon, ClockIcon, PlusIcon, RefreshCwIcon } from "@lucide/svelte";
 	import BadgeImage from "../BadgeImage.svelte";
+	import { twitchLoginExists } from "../../utils";
 
 	type Tab = {
 		id: string;
@@ -16,7 +17,13 @@
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
+	let channelNameValue: string | undefined = $state();
 	let twitchSearchValue: string = $state("");
+	let loadingChannel: boolean = $state(false);
+
+	$effect(() => {
+		channelNameValue = channelNameValue?.trim().toLocaleLowerCase() || undefined;
+	});
 
 	let tabs: Tab[] = [
 		{ id: "recent", label: "Recent Badges", isProvider: false, component: ClockIcon },
@@ -39,6 +46,21 @@
 		recentBadges.unshift(id);
 		recentBadges = recentBadges.slice(0, 9 * 5);
 		$settings.recent_badges = recentBadges;
+	}
+
+	async function loadChannelBadges() {
+		loadingChannel = true;
+
+		if (channelNameValue) {
+			if (await twitchLoginExists(channelNameValue)) {
+				await loadTwitchChannelBadges(channelNameValue);
+				location.reload();
+			}
+		} else {
+			// todo: clear cache
+		}
+
+		loadingChannel = false;
 	}
 </script>
 
@@ -71,6 +93,7 @@
 	bind:this={modal}
 	afterOpen={() => {
 		currentTabId = "recent";
+		channelNameValue = "";
 		twitchSearchValue = "";
 	}}
 	class="flex flex-col gap-2"
@@ -96,10 +119,18 @@
 					</div>
 				{:else if currentTabId == "channel"}
 					<div class="flex">
-						<input type="text" placeholder="Twitch channel name" class="grow" />
-						<button class="btn rounded-l-none! p-1!"><RefreshCwIcon class="size-3.5" /></button>
+						<input bind:value={channelNameValue} type="text" placeholder="Twitch channel name" class="grow" />
+						{#if loadingChannel}
+							<button class="btn cursor-default! rounded-l-none! p-1!"><RefreshCwIcon class="size-3.5 animate-spin stroke-neutral-400" /></button>
+						{:else}
+							<button onclick={loadChannelBadges} class="btn rounded-l-none! p-1!"><PlusIcon class="size-3.5" /></button>
+						{/if}
 					</div>
-					<span class="text-zinc-500">Not implemented</span>
+					<div class="flex flex-wrap gap-0.5">
+						{#each allBadges.filter((badge) => badge.provider == "twitch_channel") as badge}
+							{@render badgeButton(badge)}
+						{/each}
+					</div>
 				{:else if currentTabId == "twitch"}
 					<div class="flex">
 						<input bind:value={twitchSearchValue} type="text" placeholder="Search" class="grow" />
