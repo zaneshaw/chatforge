@@ -70,10 +70,7 @@
 					break;
 			}
 
-			const previewClone = previewElement.cloneNode(true) as HTMLElement;
-			previewClone.style.backgroundColor = backgroundColourHex;
-
-			messageElement.appendChild(previewClone);
+			messageElement.appendChild(previewElement.cloneNode(true));
 			if ($settings.export.resolution == "custom") {
 				messageElement.style.width = `${$settings.export.custom_resolution.width}px`;
 				messageElement.style.height = `${$settings.export.custom_resolution.height}px`;
@@ -117,13 +114,11 @@
 				bind:this={previewElement}
 				class:first-message={$settings.message_type == "first"}
 				class:deleted-message={$settings.message_type == "deleted"}
-				class="relative z-10 px-4 py-1 leading-5.5 [.first-message]:py-2.5"
-				style="max-width: {maxWidth ? `${maxWidth}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};"
+				class="relative z-10 box-content border-[rgb(200,50,200)] px-4 py-1 leading-5.5 [.first-message]:border-x-2 [.first-message]:bg-[rgba(200,50,200,0.1)] [.first-message]:py-2.5"
+				style="max-width: {maxWidth ? `${maxWidth - 36}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};"
 			>
 				{#if $settings.message_type == "first"}
-					<div class="absolute top-0 left-0 -z-10 size-full border-x-2 border-[rgb(200,50,200)] bg-[rgba(200,50,200,0.1)]">
-						<span class="absolute -top-0.75 right-4 z-20 text-[8.8px] font-semibold text-[rgba(200,50,200)] uppercase">First Message</span>
-					</div>
+					<span class="absolute -top-0.75 right-4 text-[8.8px] font-semibold text-[rgba(200,50,200)] uppercase">First Message</span>
 				{/if}
 				<span class="*:mr-0.75 *:mb-0.5 *:inline-flex *:size-4.5 *:align-middle">
 					{#each $settings?.badges as badgeId, i}
@@ -190,6 +185,6 @@
 	</div>
 </div>
 
-<div bind:this={messageElement} class="pointer-events-none fixed top-full left-full -z-100 flex w-max items-center justify-center text-sm"></div>
+<div bind:this={messageElement} class="pointer-events-none fixed top-full left-full -z-100 flex w-max items-center justify-center text-sm" style="background-color: {backgroundColourHex};"></div>
 
 <BadgeModal bind:modal={badgeModal} />
