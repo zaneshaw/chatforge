@@ -140,7 +140,7 @@
 							const isTwitchBadge = badge.provider == "twitch";
 							let matchesSearch = true;
 							if (twitchSearchValue) {
-								matchesSearch = badge.name.toLowerCase().replace(/\s/g, "").startsWith(twitchSearchValue.replace(/\s/g, ""));
+								matchesSearch = badge.name.toLowerCase().replace(/\s/g, "").includes(twitchSearchValue.replace(/\s/g, ""));
 							}
 
 							return isTwitchBadge && matchesSearch;
