@@ -3,6 +3,7 @@ import { join, dirname, appDataDir } from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
 import { fetch } from "@tauri-apps/plugin-http";
+import { parse } from "node-html-parser";
 import { loading } from "./loading.svelte";
 import { settings } from "./settings";
 import { get } from "svelte/store";
@@ -31,7 +32,7 @@ export const badges: Badge[] = [];
 export function getBadge(id: string) {
 	const badge = badges.find((badge) => badge.id == id);
 
-	return badge;
+	return badge ?? badges.find((badge) => badge.id == "18b92728-aa7a-4e24-acb5-b14ea17c8b2b"); // todo: better fallback
 }
 
 export function getBadgeUrl(id: string, quality: number) {
@@ -39,9 +40,9 @@ export function getBadgeUrl(id: string, quality: number) {
 
 	if (badge) {
 		return convertFileSrc(badge.path);
-	} else {
-		return "/fallback-badge.png";
 	}
+
+	return `https://static-cdn.jtvnw.net/badges/v1/18b92728-aa7a-4e24-acb5-b14ea17c8b2b/1`; // todo: better fallback
 }
 
 export async function loadBadges() {
