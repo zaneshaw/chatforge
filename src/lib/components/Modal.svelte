@@ -39,7 +39,7 @@
 	{#if minimal}
 		{@render children?.()}
 	{:else}
-		<div bind:this={container} class="box max-h-100 w-3/4 flex-col gap-2 overflow-y-auto p-3 {_class}">
+		<div bind:this={container} class="box max-h-100 w-3/4 flex-col gap-2 overflow-y-auto p-3 [scrollbar-gutter:stable] {_class}">
 			{@render children?.()}
 		</div>
 	{/if}
