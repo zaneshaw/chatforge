@@ -73,7 +73,7 @@
 		<input type="number" bind:value={scaleValue} min="1" max="10" class="w-9" />
 	</Setting>
 	<Setting label="Copy to Clipboard" key="export.copy_to_clipboard" bind:value={copyToClipboardValue} noBorder>
-		<input type="checkbox" bind:checked={copyToClipboardValue} disabled />
+		<input type="checkbox" bind:checked={copyToClipboardValue} />
 	</Setting>
 	<Setting label="Open in Explorer" key="export.open_directory" bind:value={openDirectoryValue} noBorder>
 		<input type="checkbox" bind:checked={openDirectoryValue} />

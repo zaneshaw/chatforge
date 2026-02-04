@@ -114,15 +114,20 @@
 
 				await writeFile(path, bytes);
 
-				if (false && $settings.export.copy_to_clipboard) {
-					await writeImage(bytes);
+				if ($settings.export.copy_to_clipboard) {
+					console.log(bytes.byteLength);
+					if (bytes.byteLength < 200000) {
+						await writeImage(bytes);
+					} else {
+						pushToast("warning", "Failed to copy to clipboard! (>200 KB)");
+					}
 				}
 
 				if ($settings.export.open_directory) {
 					await revealItemInDir(path);
 				}
 
-				pushToast("info", `Export successful! (${(bytes.byteLength / 1000 / 1000).toFixed(2)} MB)`);
+				pushToast("info", `Export successful! (${Math.floor(bytes.byteLength / 1000)} KB)`);
 			} else {
 				pushToast("error", "Export failed! Try decreasing the scale or resolution.");
 			}
