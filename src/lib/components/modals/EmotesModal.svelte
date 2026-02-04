@@ -40,6 +40,11 @@
 	async function saveSettings() {
 		const channel = channelInput.value.trim().toLowerCase();
 
+		if (channel == $settings.emotes.channel) {
+			modal.close();
+			return;
+		}
+
 		if (channel.length > 0) {
 			if (await twitchLoginExists(channel)) {
 				$settings.emotes.channel = channel;
