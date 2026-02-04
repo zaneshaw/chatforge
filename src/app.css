@@ -44,10 +44,6 @@ h2 {
 	@apply font-medium;
 }
 
-::placeholder {
-	@apply font-light text-zinc-500;
-}
-
 input[type="color"] {
 	@apply h-4 min-w-4 cursor-pointer;
 
@@ -83,10 +79,6 @@ input[type="number"] {
 	&::-webkit-outer-spin-button {
 		@apply cursor-pointer opacity-100;
 	}
-}
-
-input[type="text"] {
-	@apply rounded-xs px-1 py-1 outline-1 outline-zinc-700;
 }
 
 .box {

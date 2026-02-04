@@ -9,7 +9,7 @@
 	class:selected={selected == name}
 	class:radioFirst={first}
 	class:radioLast={last}
-	class="btn [&:not(.selected]:text-zinc-400! flex gap-1.5 rounded-none! [.radioFirst]:rounded-l-xs! [.radioLast]:rounded-r-xs! [.selected]:bg-zinc-800!"
+	class="btn [&:not(.selected]:text-zinc-400! flex gap-1.5 rounded-none! [&.radioFirst]:rounded-l-xs! [&.radioLast]:rounded-r-xs! [&.selected]:bg-zinc-800!"
 >
 	{@render children?.()}
 </button>
