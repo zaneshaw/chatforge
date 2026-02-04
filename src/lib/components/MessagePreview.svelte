@@ -12,6 +12,7 @@
 	import { onMount } from "svelte";
 	import BadgeImage from "./BadgeImage.svelte";
 	import { allEmotes, getEmoteUrl } from "../stores/emotes";
+	import { pushToast } from "../stores/toasts.svelte";
 
 	type Props = {
 		backgroundPreview: boolean;
@@ -120,6 +121,10 @@
 				if ($settings.export.open_directory) {
 					await revealItemInDir(path);
 				}
+
+				pushToast("info", `Export successful! (${(bytes.byteLength / 1000 / 1000).toFixed(2)} MB)`);
+			} else {
+				pushToast("error", "Export failed! Try decreasing the scale or resolution.");
 			}
 		}
 	}

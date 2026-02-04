@@ -7,6 +7,7 @@
 	import { get } from "svelte/store";
 	import { loading } from "../../stores/loading.svelte";
 	import BadgeImage from "../BadgeImage.svelte";
+	import { pushToast } from "../../stores/toasts.svelte";
 
 	type Preset = {
 		username: {
@@ -47,6 +48,8 @@
 		});
 
 		$settings.presets = $settings.presets;
+
+		pushToast("info", "User preset created!");
 	}
 
 	function loadPreset(preset: Preset) {
@@ -71,6 +74,8 @@
 	function deletePreset(index: number) {
 		$settings.presets.splice(index, 1);
 		$settings.presets = $settings.presets;
+
+		pushToast("info", "User preset deleted!");
 	}
 </script>
 

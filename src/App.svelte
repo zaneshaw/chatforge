@@ -13,6 +13,9 @@
 	import PreferencesModal from "./lib/components/modals/PreferencesModal.svelte";
 	import PresetsModal from "./lib/components/modals/PresetsModal.svelte";
 	import EmotesModal from "./lib/components/modals/EmotesModal.svelte";
+	import ToastNotification from "./lib/components/ToastNotification.svelte";
+	import { dismissAllToasts, pushToast, toasts } from "./lib/stores/toasts.svelte";
+	import { onMount } from "svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
@@ -36,6 +39,10 @@
 	let customMaxWidthValue: number = $state(340);
 
 	let backgroundPreviewValue: boolean = $state(true);
+
+	onMount(() => {
+		dismissAllToasts();
+	});
 </script>
 
 {#if loading.state}
@@ -138,6 +145,12 @@
 			<button onclick={() => exportModal.open()} class="btn ml-auto">Export...</button>
 		</div>
 	</main>
+
+	<div class="fixed bottom-2 left-2 flex flex-col gap-1 z-999">
+		{#each toasts as toast (toast.id)}
+			<ToastNotification {toast} />
+		{/each}
+	</div>
 
 	<PreferencesModal bind:modal={preferencesModal} />
 	<PresetsModal bind:modal={presetsModal} />

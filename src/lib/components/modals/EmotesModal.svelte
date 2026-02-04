@@ -5,6 +5,7 @@
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
 	import { twitchLoginExists } from "../../utils";
+	import { pushToast } from "../../stores/toasts.svelte";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -27,19 +28,17 @@
 
 				$settings.last_emote_check = 0;
 
-				loading.label = "Reloading...";
-				loading.showProgress = false;
-				loading.showProgressText = false;
-				loading.state = true;
-
-				location.reload();
+				pushToast("info", "Channel set! Restart to load emotes");
+				modal.close();
 			} else {
 				console.error("twitch login doesn't exist");
+				pushToast("warning", "Twitch channel doesn't exist!");
 			}
 		} else {
 			$settings.emotes.channel = undefined;
 
-			location.reload();
+			pushToast("info", "Channel unset! You should restart ChatForge");
+			modal.close();
 		}
 	}
 
@@ -76,5 +75,5 @@
 	<Setting label="7TV" noBorder>
 		<input bind:this={seventvInput} type="checkbox" checked={$settings.emotes?.["7tv"]} disabled />
 	</Setting>
-	<button onclick={saveSettings} class="btn ml-auto">Apply and Reload</button>
+	<button onclick={saveSettings} class="btn ml-auto">Apply</button>
 </Modal>
