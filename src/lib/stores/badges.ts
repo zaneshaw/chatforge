@@ -68,6 +68,10 @@ export async function loadBadges() {
 
 	const cached = (await badgeCache.values()) as Badge[];
 	badges.push(...cached);
+
+	await new Promise((r) => setTimeout(r, 500));
+
+	loading.state = false;
 }
 
 export function clearBadgeCache() {

@@ -28,7 +28,11 @@
 	}
 
 	$effect(() => {
-		getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
+		getCurrentWindow()
+			.setAlwaysOnTop(!alwaysOnTop)
+			.then(() => {
+				getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
+			});
 	});
 </script>
 
