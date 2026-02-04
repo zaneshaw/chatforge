@@ -61,7 +61,7 @@ input[type="color"] {
 }
 
 input[type="range"] {
-	@apply h-1 w-24 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
+	@apply h-3 w-24 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
 
 	&::-webkit-slider-thumb {
 		@apply size-2.5 appearance-none rounded-xs bg-white;
