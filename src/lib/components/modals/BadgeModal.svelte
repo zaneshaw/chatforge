@@ -72,7 +72,7 @@
 			{/each}
 		</div>
 		<div class="w-px bg-zinc-800"></div>
-		<div class="relative flex grow flex-col gap-1 overflow-y-auto px-px" style="height: {tabsHeight}px;">
+		<div class="flex grow flex-col gap-1 overflow-y-auto px-px" style="height: {tabsHeight}px;">
 			{#if currentTab}
 				<h2>{currentTab.label}</h2>
 				{#if currentTab.isProvider}
@@ -85,7 +85,6 @@
 						{/each}
 					</div>
 				{:else if currentTabId == "recent"}
-					<button onclick={() => ($settings.recent_badges = [])} class="hover:text-twitch-text absolute top-0 right-0 cursor-pointer text-zinc-400">Clear</button>
 					<div class="grid grid-cols-9">
 						{#each $settings.recent_badges as badgeId}
 							{@render badgeButton(getBadge(badgeId) as Badge)}
