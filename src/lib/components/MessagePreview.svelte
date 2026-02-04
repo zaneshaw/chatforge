@@ -108,16 +108,18 @@
 			messageElement.style.removeProperty("width");
 			messageElement.style.removeProperty("height");
 
-			const bytes = new Uint8Array(await result.arrayBuffer());
+			if (result) {
+				const bytes = new Uint8Array(await result.arrayBuffer());
 
-			await writeFile(path, bytes);
+				await writeFile(path, bytes);
 
-			if (false && $settings.export.copy_to_clipboard) {
-				await writeImage(bytes);
-			}
+				if (false && $settings.export.copy_to_clipboard) {
+					await writeImage(bytes);
+				}
 
-			if ($settings.export.open_directory) {
-				await revealItemInDir(path);
+				if ($settings.export.open_directory) {
+					await revealItemInDir(path);
+				}
 			}
 		}
 	}
