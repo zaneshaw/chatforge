@@ -62,7 +62,6 @@ export async function loadBadges() {
 		loading.progress = 1;
 		loading.max = 1;
 		loading.label = "Done!";
-		loading.showProgress = false;
 		loading.showProgressText = false;
 	}
 
@@ -116,8 +115,6 @@ async function tryWriteToCache(id: string, name: string, provider: string, url: 
 // todo: concurrency
 async function loadTwitchBadges() {
 	loading.label = "Getting list of Twitch badges...";
-	loading.showProgress = false;
-	loading.showProgressText = false;
 
 	const res = await fetch("https://www.streamdatabase.com/twitch/global-badges?sort_by=set_id&sort_direction=ascending", { method: "GET" });
 	const root = parse(await res.text());
@@ -128,7 +125,6 @@ async function loadTwitchBadges() {
 		loading.progress = 0;
 		loading.max = badgeContainers.length;
 		loading.label = "Caching Twitch badges...";
-		loading.showProgress = true;
 		loading.showProgressText = true;
 
 		for await (const badgeContainer of badgeContainers) {
@@ -149,8 +145,6 @@ async function loadTwitchBadges() {
 
 async function loadFFZBadges() {
 	loading.label = "Getting list of FFZ badges...";
-	loading.showProgress = false;
-	loading.showProgressText = false;
 
 	const res = await fetch("https://api.frankerfacez.com/v1/_badges", { method: "GET" });
 	const data = await res.json();
@@ -158,7 +152,6 @@ async function loadFFZBadges() {
 	loading.progress = 0;
 	loading.max = data.badges.length;
 	loading.label = "Caching FFZ badges...";
-	loading.showProgress = true;
 	loading.showProgressText = true;
 
 	for await (const badge of data.badges) {
@@ -170,8 +163,6 @@ async function loadFFZBadges() {
 
 async function loadBTTVBadges() {
 	loading.label = "Getting list of BTTV badges...";
-	loading.showProgress = false;
-	loading.showProgressText = false;
 
 	const res = await fetch("https://api.betterttv.net/3/cached/badges/twitch", { method: "GET" });
 	const users = await res.json();
@@ -183,7 +174,6 @@ async function loadBTTVBadges() {
 	loading.progress = 0;
 	loading.max = badgesSorted.length;
 	loading.label = "Caching BTTV badges...";
-	loading.showProgress = true;
 	loading.showProgressText = true;
 
 	for await (const badge of badgesSorted) {
@@ -195,8 +185,6 @@ async function loadBTTVBadges() {
 
 async function load7TVBadges() {
 	loading.label = "Getting list of 7TV badges...";
-	loading.showProgress = false;
-	loading.showProgressText = false;
 
 	const res = await fetch("https://7tv.io/v3/gql", {
 		method: "POST",
@@ -210,7 +198,6 @@ async function load7TVBadges() {
 	loading.progress = 0;
 	loading.max = badges.length;
 	loading.label = "Caching 7TV badges...";
-	loading.showProgress = true;
 	loading.showProgressText = true;
 
 	for await (const badge of badges) {
