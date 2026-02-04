@@ -27,7 +27,6 @@
 
 	$effect(() => {
 		if (key != undefined) {
-			console.log(key, value);
 			setFlattenedSetting(key, value);
 		}
 	});
