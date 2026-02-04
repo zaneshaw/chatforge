@@ -98,6 +98,17 @@
 				messageElement.style.height = `${$settings.export.custom_resolution.height}px`;
 			}
 
+			const images = Array.from(messageElement.querySelectorAll("img"));
+			const imagePromises = images.map(
+				(image) =>
+					new Promise<void>((resolve) => {
+						if (image.complete) return resolve();
+						image.addEventListener("load", () => resolve());
+					}),
+			);
+
+			await Promise.all(imagePromises);
+
 			const result = await snapdom.toBlob(messageElement, {
 				type: $settings.export.file_format,
 				quality: quality,
