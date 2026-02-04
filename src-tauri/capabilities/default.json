@@ -26,7 +26,7 @@
       "identifier": "http:default",
       "allow": [
         {
-          "url": "https://gql.twitch.tv/gql"
+          "url": "https://www.streamdatabase.com"
         },
         {
           "url": "https://static-cdn.jtvnw.net"

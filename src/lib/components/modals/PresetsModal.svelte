@@ -25,7 +25,7 @@
 						text: "Liam",
 					},
 					messageColour: "#ffffff",
-					badgeIds: ["twitch_5527c58c-fb7d-422d-b71b-f309dcb85cc1", "twitch_01998862-3032-4f9c-bc81-fd78b0c35763", "twitch_d12a2e27-16f6-41d0-ab77-b780518f00a3"],
+					badgeIds: ["5527c58c-fb7d-422d-b71b-f309dcb85cc1", "01998862-3032-4f9c-bc81-fd78b0c35763", "d12a2e27-16f6-41d0-ab77-b780518f00a3"],
 				},
 			];
 		}
