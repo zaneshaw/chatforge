@@ -26,10 +26,10 @@
 			</div>
 		</div>
 		<SettingsRow>
-			<Setting label="Name Colour">
+			<Setting label="Name Color">
 				<input type="color" name="" id="" class="w-9" />
 			</Setting>
-			<Setting label="Message Colour">
+			<Setting label="Message Color">
 				<input type="color" name="" id="" class="w-9" />
 			</Setting>
 		</SettingsRow>
