@@ -41,7 +41,7 @@ h2 {
 }
 
 input[type="color"] {
-	@apply h-4 min-w-4 cursor-pointer;
+	@apply h-3.5 w-32 cursor-pointer;
 
 	&::-webkit-color-swatch-wrapper {
 		@apply p-0;
@@ -53,7 +53,7 @@ input[type="color"] {
 }
 
 input[type="range"] {
-	@apply h-3 w-24 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
+	@apply h-3 w-32 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
 
 	&::-webkit-slider-thumb {
 		@apply size-2.5 appearance-none rounded-xs bg-white;
@@ -65,15 +65,6 @@ input[type="checkbox"] {
 
 	&:checked::after {
 		@apply absolute size-3/4 rounded-xs bg-white content-[""];
-	}
-}
-
-input[type="number"] {
-	@apply rounded-xs outline-1 outline-zinc-700;
-
-	&::-webkit-inner-spin-button,
-	&::-webkit-outer-spin-button {
-		@apply cursor-pointer opacity-100;
 	}
 }
 
