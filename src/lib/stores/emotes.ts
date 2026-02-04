@@ -50,7 +50,7 @@ export async function loadEmotes() {
 
 	if (!_settings.last_emote_check || now >= _settings.last_emote_check + checkCacheInterval) {
 		await loadTwitchGlobalEmotes();
-		if (_settings.emotes.channel != undefined) {
+		if (_settings?.emotes?.channel != undefined) {
 			await clearEmoteProviderCache("twitch");
 			if (_settings.emotes.twitch) {
 				await loadTwitchEmotes(_settings.emotes.channel);
