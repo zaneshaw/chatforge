@@ -28,10 +28,6 @@ main {
 	@apply m-3;
 }
 
-::selection {
-	@apply bg-zinc-700;
-}
-
 hr {
 	@apply border-zinc-800;
 }
@@ -103,8 +99,4 @@ input[type="number"] {
 	&:active::before {
 		@apply w-full transition-[width] duration-1500 ease-[ease-out];
 	}
-}
-
-.editable {
-	@apply min-w-0.75 cursor-pointer rounded-xs outline-0 outline-zinc-700 hover:outline-1 focus:cursor-text focus:outline-1 focus:outline-zinc-600;
 }
