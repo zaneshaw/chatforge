@@ -37,10 +37,10 @@
 	class="fixed top-0 left-0 z-50 size-full justify-center border-0 bg-black/50 outline-none open:flex {centered ? 'items-center' : 'items-start pt-8'}"
 >
 	{#if minimal}
-		{@render children?.()}
+		{@render children()}
 	{:else}
 		<div bind:this={container} class="box max-h-100 w-3/4 flex-col gap-2 overflow-y-auto p-3 [scrollbar-gutter:stable] {_class}">
-			{@render children?.()}
+			{@render children()}
 		</div>
 	{/if}
 </dialog>

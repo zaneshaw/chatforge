@@ -7,5 +7,5 @@
 </script>
 
 <div class="flex gap-2 [&>div]:grow [&>div]:basis-0">
-	{@render children?.()}
+	{@render children()}
 </div>

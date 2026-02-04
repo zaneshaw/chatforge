@@ -28,17 +28,17 @@
 </script>
 
 {#if minimal}
-	{@render children?.()}
+	{@render children()}
 {:else}
 	{#if isChild}
 		<div class="between h-6 {_class}">
 			<span>{label}</span>
-			{@render children?.()}
+			{@render children()}
 		</div>
 	{:else}
 		<div class="box between h-10 p-2 {_class}">
 			<h2>{label}</h2>
-			{@render children?.()}
+			{@render children()}
 		</div>
 	{/if}
 {/if}
