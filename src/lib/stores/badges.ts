@@ -1,4 +1,4 @@
-import { writeFile, mkdir, remove, BaseDirectory, exists } from "@tauri-apps/plugin-fs";
+import { writeFile, mkdir, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { join, dirname, appDataDir } from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
@@ -62,6 +62,7 @@ export async function loadBadges() {
 		loading.progress = 1;
 		loading.max = 1;
 		loading.label = "Done!";
+		loading.showProgress = false;
 		loading.showProgressText = false;
 	}
 
@@ -69,23 +70,16 @@ export async function loadBadges() {
 	badges.push(...cached);
 }
 
-export async function clearBadgeCache() {
-	await badgeCache.clear();
-	await badgeCache.save();
-
-	const path = await join("cache", "badges");
-	if (await exists(path, { baseDir: BaseDirectory.AppData })) {
-		await remove(path, {
-			baseDir: BaseDirectory.AppData,
-			recursive: true,
-		});
-	}
+export function clearBadgeCache() {
+	badgeCache.clear();
+	badgeCache.save();
 
 	settings.update((state) => {
 		state.last_badge_check = 0;
 		return state;
 	});
 
+	location.reload();
 }
 
 async function tryWriteToCache(id: string, name: string, provider: string, url: string) {

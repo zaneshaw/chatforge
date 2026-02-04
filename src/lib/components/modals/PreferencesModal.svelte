@@ -15,7 +15,7 @@
 		if (!factoryResetTimer) {
 			factoryResetTimer = setTimeout(async () => {
 				(await getStore("settings.json"))?.reset();
-				await clearBadgeCache();
+				(await getStore("badge_cache.json"))?.reset();
 
 				location.reload();
 				await relaunch();
@@ -43,13 +43,7 @@
 		<button class="btn">Clear</button>
 	</Setting>
 	<Setting label="Badge Cache" noBorder>
-		<button
-			onclick={async () => {
-				await clearBadgeCache();
-				location.reload();
-			}}
-			class="btn">Clear</button
-		>
+		<button onclick={clearBadgeCache} class="btn">Clear</button>
 	</Setting>
 	<br />
 	<Setting label="Factory Reset" noBorder>
