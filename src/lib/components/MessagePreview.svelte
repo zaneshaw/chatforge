@@ -29,33 +29,29 @@
 </script>
 
 <div class="flex size-full items-center justify-center text-sm">
-	{#await document.fonts.ready}
-		<span class="text-zinc-600">loading font...</span>
-	{:then}
-		<Setting label="" key="username.text" bind:value={usernameValue} minimal>
-			<input
-				type="text"
-				bind:value={usernameValue}
-				onfocus={(e) => (e.target as HTMLInputElement).select()}
-				placeholder={USERNAME_PLACEHOLDER}
-				autocomplete="off"
-				spellcheck="false"
-				class="rounded-xs p-0 font-bold outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
-				style="width: {usernameWidth}px;"
-			/>
-		</Setting>
-		<span class="mr-1">:</span>
-		<Setting label="" key="message.text" bind:value={messageValue} minimal>
-			<input
-				type="text"
-				bind:value={messageValue}
-				onfocus={(e) => (e.target as HTMLInputElement).select()}
-				placeholder={MESSAGE_PLACEHOLDER}
-				autocomplete="off"
-				spellcheck="false"
-				class="rounded-xs p-0 outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
-				style="width: {messageWidth}px;"
-			/>
-		</Setting>
-	{/await}
+	<Setting label="" key="username.text" bind:value={usernameValue} minimal>
+		<input
+			type="text"
+			bind:value={usernameValue}
+			onfocus={(e) => (e.target as HTMLInputElement).select()}
+			placeholder={USERNAME_PLACEHOLDER}
+			autocomplete="off"
+			spellcheck="false"
+			class="rounded-xs p-0 font-bold outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
+			style="width: {usernameWidth}px;"
+		/>
+	</Setting>
+	<span class="mr-1">:</span>
+	<Setting label="" key="message.text" bind:value={messageValue} minimal>
+		<input
+			type="text"
+			bind:value={messageValue}
+			onfocus={(e) => (e.target as HTMLInputElement).select()}
+			placeholder={MESSAGE_PLACEHOLDER}
+			autocomplete="off"
+			spellcheck="false"
+			class="rounded-xs p-0 outline-0 outline-zinc-700 hover:outline-1 focus:outline-1 focus:outline-zinc-600"
+			style="width: {messageWidth}px;"
+		/>
+	</Setting>
 </div>
