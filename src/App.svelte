@@ -128,6 +128,8 @@
 	</div>
 </main>
 
+<div class="bg-twitch-background-light w-full border-t border-zinc-800 px-3 py-0.5 font-light text-zinc-500">Hover over something for help...</div>
+
 <Modal bind:this={preferencesModal} class="flex flex-col gap-2">
 	<h1>Preferences</h1>
 	<Setting label="Always On Top" key="always_on_top" bind:value={alwaysOnTopValue} isChild>
