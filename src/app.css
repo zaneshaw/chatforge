@@ -33,7 +33,7 @@ hr {
 }
 
 h1 {
-	@apply text-sm font-medium;
+	@apply text-lg font-medium;
 }
 
 h2 {
@@ -41,7 +41,7 @@ h2 {
 }
 
 input[type="color"] {
-	@apply h-3.5 w-32 cursor-pointer;
+	@apply w-32 cursor-pointer h-3.5;
 
 	&::-webkit-color-swatch-wrapper {
 		@apply p-0;
@@ -56,7 +56,7 @@ input[type="range"] {
 	@apply h-3 w-32 cursor-pointer appearance-none overflow-visible rounded-xs border border-zinc-700;
 
 	&::-webkit-slider-thumb {
-		@apply size-2.5 appearance-none rounded-xs bg-white;
+		@apply size-3.5 appearance-none rounded-xs bg-white;
 	}
 }
 
@@ -69,7 +69,7 @@ input[type="checkbox"] {
 }
 
 .box {
-	@apply bg-twitch-background-light rounded-xs outline-1 outline-zinc-800;
+	@apply bg-twitch-background-light rounded-xs outline-1 outline-zinc-800 hover:outline-zinc-700;
 }
 
 .btn {

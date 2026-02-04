@@ -1,15 +1,12 @@
 <script lang="ts">
-	import Modal from "./lib/components/Modal.svelte";
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
 	import SettingsRow from "./lib/components/SettingsRow.svelte";
-
-	let preferencesModal: Modal;
 </script>
 
 <main class="flex h-full grow flex-col justify-between">
 	<div class="flex flex-col gap-2">
-		<button class="btn ml-auto" onclick={preferencesModal.open}>Preferences</button>
+		<button class="btn ml-auto">Preferences</button>
 		<SettingsGroup label="Background">
 			<Setting label="Colour" isChild>
 				<input type="color" name="" id="" />
@@ -57,10 +54,4 @@
 	</div>
 </main>
 
-<div class="bg-twitch-background-light w-full border-t border-zinc-800 px-3 py-0.5 font-light text-zinc-400">Hover over something for help...</div>
-
-<Modal bind:this={preferencesModal} class="flex flex-col gap-2">
-	<h1>Preferences</h1>
-	<Setting label="setting1" minimal class="between">input1</Setting>
-	<Setting label="setting2" minimal class="between">input2</Setting>
-</Modal>
+<div class="bg-twitch-background-light w-full border-t border-zinc-800 px-3 py-0.5 text-sm font-light text-zinc-400">Hover over something for help...</div>
