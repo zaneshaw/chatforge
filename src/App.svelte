@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getCurrentWindow } from "@tauri-apps/api/window";
 	import { SettingsIcon } from "@lucide/svelte";
-	import { settingsStorage } from "./lib/stores/settingsStorage";
 	import Modal from "./lib/components/Modal.svelte";
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
@@ -26,24 +25,7 @@
 	$effect(() => {
 		getCurrentWindow().setAlwaysOnTop(alwaysOnTopValue);
 	});
-
-	let factoryResetTimer: number | undefined;
-
-	function factoryReset() {
-		if (!factoryResetTimer) {
-			factoryResetTimer = setTimeout(() => {
-				$settingsStorage = {};
-				location.reload();
-			}, 1500);
-		}
-	}
-
-	function onMouseUp() {
-		if (factoryResetTimer) clearTimeout(factoryResetTimer);
-	}
 </script>
-
-<svelte:window onmouseup={onMouseUp} />
 
 <main class="flex h-full grow flex-col justify-between">
 	<div class="flex flex-col gap-2">
@@ -129,13 +111,13 @@
 		<input type="checkbox" bind:checked={alwaysOnTopValue} />
 	</Setting>
 	<Setting label="Emote Cache" isChild>
-		<button class="btn">Clear</button>
+		<button class="btn">Reset</button>
 	</Setting>
 	<Setting label="Badge Cache" isChild>
-		<button class="btn">Clear</button>
+		<button class="btn">Reset</button>
 	</Setting>
 	<br />
 	<Setting label="Factory Reset" isChild>
-		<button onmousedown={factoryReset} class="btn btn-danger">Reset</button>
+		<button class="btn">Reset and Exit</button>
 	</Setting>
 </Modal>
