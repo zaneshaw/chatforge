@@ -34,7 +34,7 @@
 		if (e.target == e.currentTarget) close();
 	}}
 	closedby="closerequest"
-	class="fixed top-0 left-0 z-50 size-full justify-center border-0 bg-black/50 outline-none open:flex {centered ? 'items-center' : 'items-start pt-8'}"
+	class="fixed top-0 left-0 z-10 size-full justify-center border-0 bg-black/50 outline-none open:flex {centered ? 'items-center' : 'items-start pt-8'}"
 >
 	{#if minimal}
 		{@render children()}
