@@ -21,7 +21,7 @@
 	let messageTypeValue: string = $state("default");
 	let wrapValue: boolean = $state(false);
 	let alwaysOnTopValue: boolean = $state(true);
-	let backgorundPreviewValue: boolean = $state(true);
+	let backgorundPreviewValue: boolean = $state(false);
 
 	$effect(() => {
 		getCurrentWindow().setAlwaysOnTop(alwaysOnTopValue);
@@ -108,18 +108,11 @@
 	<hr />
 	<div class="flex flex-col gap-2">
 		<div class="box relative h-62.5 w-full overflow-hidden">
-			<label class="btn absolute z-20 top-0 right-0 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
+			<label class="btn absolute top-0 right-0 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
 				<input type="checkbox" bind:checked={backgorundPreviewValue} />
 				Background Preview
 			</label>
-			<MessagePreview
-				usernameColour={usernameColourValue}
-				messageColour={messageColourValue}
-				backgroundColor="{backgroundColourValue}{Math.floor(backgroundOpacityValue * 255)
-					.toString(16)
-					.padStart(2, '0')}"
-				backgroundPreview={backgorundPreviewValue}
-			/>
+			<MessagePreview />
 		</div>
 		<div class="ml-auto flex">
 			<button class="btn rounded-r-none!">Quick Export</button>

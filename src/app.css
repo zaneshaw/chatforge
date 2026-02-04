@@ -29,7 +29,7 @@ main {
 }
 
 ::selection {
-	@apply bg-zinc-600/75;
+	@apply bg-zinc-700;
 }
 
 hr {
