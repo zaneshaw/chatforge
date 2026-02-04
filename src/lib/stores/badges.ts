@@ -69,7 +69,8 @@ export async function loadBadges() {
 	}
 
 	const cached = (await badgeCache.values()) as Badge[];
-	allBadges.push(...cached);
+	const sorted = cached.sort((a, b) => a.name.localeCompare(b.name, "en"));
+	allBadges.push(...sorted);
 }
 
 export async function clearBadgeCache() {

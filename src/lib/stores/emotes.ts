@@ -71,7 +71,8 @@ export async function loadEmotes() {
 	}
 
 	const cached = (await emoteCache.values()) as Emote[];
-	allEmotes.push(...cached);
+	const sorted = cached.sort((a, b) => a.token.localeCompare(b.token, "en"));
+	allEmotes.push(...sorted);
 }
 
 export async function clearEmoteCache() {
