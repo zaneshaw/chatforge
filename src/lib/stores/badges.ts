@@ -7,7 +7,7 @@ import { loading } from "./loading.svelte";
 import { settings } from "./settings";
 import { get } from "svelte/store";
 
-type BadgeProvider = "twitch" | "twitch_channel" | "ffz" | "bttv" | "7tv";
+type BadgeProvider = "twitch" | "ffz" | "bttv" | "7tv";
 
 export type Badge = {
 	id: string;
@@ -52,7 +52,6 @@ export async function loadBadges() {
 
 	if (!lastBadgeCheck || now >= lastBadgeCheck + checkCacheInterval) {
 		await loadTwitchBadges();
-		await loadTwitchChannelBadges("liam");
 		await loadFFZBadges();
 		await loadBTTVBadges();
 		await load7TVBadges();
@@ -134,7 +133,6 @@ async function loadTwitchBadges() {
 			query: `
 				query GlobalBadges {
 					badges {
-						id
 						setID
 						title
 						imageURL
@@ -153,7 +151,7 @@ async function loadTwitchBadges() {
 	loading.showProgressText = true;
 
 	for await (const badge of badges) {
-		await tryWriteToCache(badge.id, badge.title, "twitch", `${badge.imageURL.slice(0, -1)}3`);
+		await tryWriteToCache(badge.imageURL.split("/").at(-2), badge.title, "twitch", `${badge.imageURL.slice(0, -1)}3`);
 
 		loading.progress++;
 	}
@@ -241,37 +239,5 @@ async function load7TVBadges() {
 		await tryWriteToCache(`7tv_${badge.id}`, badge.tooltip, "7tv", `https://${badge.host.url}/4x.webp`);
 
 		loading.progress++;
-	}
-}
-
-export async function loadTwitchChannelBadges(channel: string) {
-	const res = await fetch("https://gql.twitch.tv/gql", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
-		},
-		body: JSON.stringify({
-			query: `
-				query ChannelBadges($login: String!) {
-					user(login: $login) {
-						broadcastBadges {
-							id
-							setID
-							title
-							imageURL
-							description
-						}
-					}
-				}
-			`,
-			variables: { login: channel },
-		}),
-	});
-	const data = await res.json();
-	const badges = data.data.user.broadcastBadges;
-
-	for await (const badge of badges) {
-		await tryWriteToCache(badge.id, badge.title, "twitch_channel", `${badge.imageURL.slice(0, -1)}3`, { channel: channel });
 	}
 }
