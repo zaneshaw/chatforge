@@ -14,7 +14,6 @@ export type Badge = {
 	provider: "twitch" | "ffz" | "bttv" | "7tv";
 	path: string;
 	ts: number;
-	data?: any;
 };
 
 const checkCacheInterval = 24 * 60 * 60 * 1000; // check cache after 24 hours
@@ -88,7 +87,7 @@ export async function clearBadgeCache() {
 	});
 }
 
-async function tryWriteToCache(id: string, name: string, provider: string, url: string, data?: any) {
+async function tryWriteToCache(id: string, name: string, provider: string, url: string) {
 	const cached = await badgeCache.get<Badge>(id);
 	const now = Date.now();
 
@@ -111,7 +110,6 @@ async function tryWriteToCache(id: string, name: string, provider: string, url: 
 			provider: provider,
 			path: await join(await appDataDir(), badgePath),
 			ts: now,
-			data: data,
 		} as Badge);
 	}
 }
@@ -171,7 +169,7 @@ async function loadFFZBadges() {
 	loading.showProgressText = true;
 
 	for await (const badge of data.badges) {
-		await tryWriteToCache(`ffz_${badge.id}`, badge.title, "ffz", Object.values(badge.urls).at(-1) as string, { colour: badge.color });
+		await tryWriteToCache(`ffz_${badge.id}`, badge.title, "ffz", Object.values(badge.urls).at(-1) as string);
 
 		loading.progress++;
 	}
