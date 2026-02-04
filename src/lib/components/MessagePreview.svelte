@@ -3,6 +3,7 @@
 	import { join } from "@tauri-apps/api/path";
 	import { writeFile } from "@tauri-apps/plugin-fs";
 	import { writeImage } from "@tauri-apps/plugin-clipboard-manager";
+	import { Image } from "@tauri-apps/api/image";
 	import { settings } from "../stores/settings";
 	import { revealItemInDir } from "@tauri-apps/plugin-opener";
 	import Modal from "./Modal.svelte";
@@ -75,11 +76,12 @@
 			messageElement.style.removeProperty("height");
 
 			const bytes = new Uint8Array(await result.arrayBuffer());
+			const image = await Image.fromBytes(bytes);
 
 			await writeFile(path, bytes);
 
 			if ($settings.export.copy_to_clipboard) {
-				await writeImage(bytes);
+				await writeImage(image);
 			}
 
 			if ($settings.export.open_directory) {
