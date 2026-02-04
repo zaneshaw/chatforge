@@ -6,12 +6,11 @@
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
 	import SettingsRow from "./lib/components/SettingsRow.svelte";
 	import RadioGroup from "./lib/components/RadioGroup.svelte";
-	import MessagePreview from "./lib/components/MessagePreview.svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
 
-	let usernameColourValue: string = $state("#ffffff");
+	let nameColourValue: string = $state("#ffffff");
 	let messageColourValue: string = $state("#ffffff");
 	let backgroundColourValue: string = $state("#18181b");
 	let backgroundOpacityValue: number = $state(1);
@@ -45,8 +44,8 @@
 			</div>
 		</div>
 		<SettingsRow>
-			<Setting label="Name Colour" key="username.colour" bind:value={usernameColourValue}>
-				<input type="color" bind:value={usernameColourValue} class="w-9" />
+			<Setting label="Name Colour" key="name.colour" bind:value={nameColourValue}>
+				<input type="color" bind:value={nameColourValue} class="w-9" />
 			</Setting>
 			<Setting label="Message Colour" key="message.colour" bind:value={messageColourValue}>
 				<input type="color" bind:value={messageColourValue} class="w-9" />
@@ -94,7 +93,9 @@
 				<input type="checkbox" bind:checked={backgorundPreviewValue} />
 				Background Preview
 			</label>
-			<MessagePreview />
+			<div class="flex size-full items-center justify-center text-sm">
+				<span class="font-bold">squidee_</span><span>: yo</span>
+			</div>
 		</div>
 		<div class="ml-auto flex">
 			<button class="btn rounded-r-none!">Quick Export</button>
