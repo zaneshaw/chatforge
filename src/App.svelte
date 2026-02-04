@@ -79,7 +79,7 @@
 					<input type="color" bind:value={messageColourValue} class="w-9" />
 				</Setting>
 			</SettingsRow>
-			<Setting label="Emotes" disabled>
+			<Setting label="Emotes">
 				<button class="btn">Configure Emotes</button>
 			</Setting>
 			<SettingsRow>
