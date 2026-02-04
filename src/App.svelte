@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getCurrentWindow } from "@tauri-apps/api/window";
 	import { SettingsIcon } from "@lucide/svelte";
-	import { settings } from "./lib/stores/settings";
+	import { settingsStorage } from "./lib/stores/settingsStorage";
 	import Modal from "./lib/components/Modal.svelte";
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
@@ -27,7 +27,7 @@
 	$inspect(maxWidthValue);
 
 	$effect(() => {
-		getCurrentWindow().setAlwaysOnTop($settings.always_on_top);
+		getCurrentWindow().setAlwaysOnTop(alwaysOnTopValue);
 	});
 
 	let factoryResetTimer: number | undefined;
@@ -35,7 +35,7 @@
 	function factoryReset() {
 		if (!factoryResetTimer) {
 			factoryResetTimer = setTimeout(() => {
-				$settings = {};
+				$settingsStorage = {};
 				location.reload();
 			}, 1500);
 		}
@@ -78,10 +78,10 @@
 		</Setting>
 		<SettingsRow>
 			<SettingsGroup label="Background">
-				<Setting label="Colour" key="background.colour" bind:value={backgroundColourValue} isChild>
+				<Setting label="Colour" key="bg.colour" bind:value={backgroundColourValue} isChild>
 					<input type="color" bind:value={backgroundColourValue} class="w-9" />
 				</Setting>
-				<Setting label="Opacity" key="background.opacity" bind:value={backgroundOpacityValue} isChild>
+				<Setting label="Opacity" key="bg.opacity" bind:value={backgroundOpacityValue} isChild>
 					<input type="number" bind:value={backgroundOpacityValue} min="0" max="1" step="0.1" class="w-9" />
 				</Setting>
 			</SettingsGroup>
@@ -107,7 +107,7 @@
 				<RadioButton bind:selected={maxWidthValue} name="twitch">Twitch</RadioButton>
 				<RadioButton bind:selected={maxWidthValue} name="custom" last>
 					Custom
-					{#if $settings?.max_width == "custom"}
+					{#if maxWidthValue == "custom"}
 						<Setting label="" key="custom_max_width" bind:value={customMaxWidthValue} minimal>
 							<input type="number" min="10" max="999" step="10" bind:value={customMaxWidthValue} class="w-10" />
 						</Setting>
@@ -123,7 +123,14 @@
 				<input type="checkbox" bind:checked={backgorundPreviewValue} />
 				Background Preview
 			</label>
-			<MessagePreview backgroundPreview={backgorundPreviewValue} bind:this={messagePreview} />
+			<MessagePreview
+				usernameColour={usernameColourValue}
+				messageColour={messageColourValue}
+				backgroundColor="{backgroundColourValue}{Math.floor(backgroundOpacityValue * 255)
+					.toString(16)
+					.padStart(2, '0')}"
+				backgroundPreview={backgorundPreviewValue}
+			/>
 		</div>
 		<div class="ml-auto flex">
 			<button class="btn rounded-r-none!">Quick Export</button>
