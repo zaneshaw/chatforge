@@ -20,13 +20,13 @@
 </script>
 
 <div class="relative size-full">
-	{#if backgroundPreview}
-		<div class="pointer-events-none absolute top-0 left-0 size-full bg-[url(/transparent.png)] bg-size-[10%] bg-center [image-rendering:pixelated]"></div>
-	{/if}
-	<div class="absolute top-0 left-0 flex size-full items-center justify-center overflow-auto text-sm" style="background-color: {backgroundPreview ? backgroundColor : 'unset'};">
-		{#await document.fonts.ready}
-			<span class="text-zinc-600">loading font...</span>
-		{:then}
+	{#await document.fonts.ready}
+		<span class="text-zinc-600">loading font...</span>
+	{:then}
+		{#if backgroundPreview}
+			<div class="pointer-events-none absolute top-0 left-0 size-full bg-[url(/transparent.png)] bg-size-[10%] bg-center [image-rendering:pixelated]"></div>
+		{/if}
+		<div class="absolute top-0 left-0 flex size-full items-center justify-center overflow-auto text-sm" style="background-color: {backgroundPreview ? backgroundColor : 'unset'};">
 			<div class="z-10 max-w-85 px-4 py-1 leading-5.5">
 				<span class="*:mr-0.75 *:mb-0.5 *:inline-block *:size-4.5 *:align-middle">
 					{#each badges as badge}
@@ -72,6 +72,6 @@
 					</Setting>
 				</span>
 			</div>
-		{/await}
-	</div>
+		</div>
+	{/await}
 </div>
