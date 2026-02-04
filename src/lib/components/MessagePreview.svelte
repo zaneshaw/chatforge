@@ -159,7 +159,7 @@
 				class:first-message={$settings.message_type == "first"}
 				class:deleted-message={$settings.message_type == "deleted"}
 				class="relative z-10 px-4 py-1 leading-5.5 [.first-message]:py-2.5"
-				style="max-width: {maxWidth ? `${maxWidth}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};"
+				style="max-width: {maxWidth ? `${maxWidth}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'}; font-family: {$settings.font.family}"
 			>
 				{#if $settings.message_type == "first"}
 					<div class="absolute top-0 left-0 -z-10 size-full border-x-2 border-[rgb(200,50,200)] bg-[rgba(200,50,200,0.1)]"></div>

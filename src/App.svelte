@@ -35,8 +35,8 @@
 	let messageColourValue: string = $state("#ffffff");
 	let backgroundColourValue: string = $state("#18181b");
 	let backgroundOpacityValue: number = $state(1);
-	let outlineColourValue: string = $state("#000000");
-	let outlineThicknessValue: number = $state(0);
+	let fontFamilyValue: string = $state("Inter");
+	let fontBoldValue: boolean = $state(false);
 	let messageTypeValue: string = $state("default");
 	let maxWidthValue: string = $state("twitch");
 	let customMaxWidthValue: number = $state(340);
@@ -104,12 +104,15 @@
 						<input type="number" bind:value={backgroundOpacityValue} min="0" max="1" step="0.1" class="w-9" />
 					</Setting>
 				</SettingsGroup>
-				<SettingsGroup label="Outline" help="Outline will only render in the exported image" disabled>
-					<Setting label="Colour" key="outline.colour" bind:value={outlineColourValue} noBorder>
-						<input type="color" bind:value={outlineColourValue} class="w-9" />
+				<SettingsGroup label="Font" help="System fonts will be added soon">
+					<Setting label="Family" key="font.family" bind:value={fontFamilyValue} noBorder>
+						<div class="ml-auto flex">
+							<RadioButton bind:selected={fontFamilyValue} name="Inter" first>Inter</RadioButton>
+							<RadioButton bind:selected={fontFamilyValue} name="MADE" last>MADE</RadioButton>
+						</div>
 					</Setting>
-					<Setting label="Thickness" key="outline.thickness" bind:value={outlineThicknessValue} noBorder>
-						<input type="number" bind:value={outlineThicknessValue} min="0" max="5" class="w-9" />
+					<Setting label="Bold" key="font.bold" bind:value={fontBoldValue} noBorder>
+						<input type="checkbox" bind:checked={fontBoldValue} disabled />
 					</Setting>
 				</SettingsGroup>
 			</SettingsRow>

@@ -15,6 +15,6 @@ await loadBadges();
 await loadEmotes();
 loading.state = false;
 
-console.log(get(settings))
+console.debug(get(settings))
 
 export default app;
