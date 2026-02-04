@@ -56,19 +56,7 @@
 
 	export async function exportMessage() {
 		if ($settings?.export?.output_directory) {
-			const path = await join($settings.export.output_directory, `chatforge-${Date.now()}.${$settings.export.file_format}`);
-
-			let quality = 1;
-			switch ($settings.export.file_format) {
-				case "webp":
-					quality = ($settings.export.webp_quality as number) / 100;
-					break;
-				case "jpeg":
-					quality = ($settings.export.jpeg_quality as number) / 100;
-					break;
-				default:
-					break;
-			}
+			const path = await join($settings.export.output_directory, `chatforge-${Date.now()}.png`);
 
 			messageElement.appendChild(previewElement.cloneNode(true));
 			if ($settings.export.resolution == "custom") {
@@ -77,8 +65,7 @@
 			}
 
 			const result = await snapdom.toBlob(messageElement, {
-				type: $settings.export.file_format,
-				quality: quality,
+				type: "png",
 				embedFonts: true,
 				scale: $settings.export.scale,
 			});
@@ -91,7 +78,7 @@
 
 			await writeFile(path, bytes);
 
-			if (false && $settings.export.copy_to_clipboard) {
+			if ($settings.export.copy_to_clipboard) {
 				await writeImage(bytes);
 			}
 
