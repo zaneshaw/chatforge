@@ -6,7 +6,7 @@ import { convertFileSrc } from "@tauri-apps/api/core";
 import { settings } from "./settings";
 import { get } from "svelte/store";
 
-type EmoteProvider = "twitch_global" | "twitch" | "ffz" | "bttv" | "7tv";
+type EmoteProvider = "twitch_global" | "twitch_channel" | "ffz" | "bttv" | "7tv";
 
 export type Emote = {
 	id: string;
@@ -45,14 +45,11 @@ export function getEmoteUrl(id: string) {
 }
 
 export async function loadEmotes() {
-	const _settings = get(settings);
+	const lastEmoteCheck = get(settings).last_emote_check;
 	const now = Date.now();
 
-	if (!_settings.last_emote_check || now >= _settings.last_emote_check + checkCacheInterval) {
+	if (!lastEmoteCheck || now >= lastEmoteCheck + checkCacheInterval) {
 		await loadTwitchGlobalEmotes();
-		if (_settings.emotes.channel != undefined) {
-			await loadTwitchEmotes(_settings.emotes.channel);
-		}
 
 		settings.update((state) => {
 			state.last_emote_check = now;
@@ -147,55 +144,7 @@ async function loadTwitchGlobalEmotes() {
 	loading.showProgressText = true;
 
 	for await (const emote of emotes) {
-		await cacheEmote(emote.id, emote.token, "twitch_global", `${emote.id}.gif`, `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/1.0`);
-
-		loading.progress++;
-	}
-}
-
-async function loadTwitchEmotes(channel: string) {
-	loading.label = `Getting list of ${channel}'s Twitch emotes...`;
-	loading.showProgress = false;
-	loading.showProgressText = false;
-
-	const res = await fetch("https://gql.twitch.tv/gql", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"client-id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
-		},
-		body: JSON.stringify({
-			query: `
-				query ChannelEmotes($login: String!) {
-					user(login: $login) {
-						subscriptionProducts {
-							emotes {
-								id
-								token
-								subscriptionTier
-							}
-						}
-					}
-				}
-			`,
-			variables: { login: channel },
-		}),
-	});
-
-	const data = await res.json();
-	const emotes = data.data.user.subscriptionProducts.flatMap((x: any) => x.emotes);
-
-	loading.progress = 0;
-	loading.max = emotes.length;
-	loading.label = `Caching ${channel}'s Twitch emotes...`;
-	loading.showProgress = true;
-	loading.showProgressText = true;
-
-	for await (const emote of emotes) {
-		await cacheEmote(emote.id, emote.token, "twitch", `${emote.id}.gif`, `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/1.0`, {
-			channel: channel,
-			tier: emote.subscriptionTier,
-		});
+		await cacheEmote(`twitch_${emote.id}`, emote.token, "twitch_global", `${emote.id}.gif`, `https://static-cdn.jtvnw.net/emoticons/v2/${emote.id}/default/dark/1.0`);
 
 		loading.progress++;
 	}
