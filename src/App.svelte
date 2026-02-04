@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { SettingsIcon } from "@lucide/svelte";
-	import { fade } from "svelte/transition";
 	import { settings } from "./lib/stores/settings";
-	import { loading } from "./lib/stores/loading.svelte";
 	import Modal from "./lib/components/Modal.svelte";
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
@@ -12,6 +10,7 @@
 	import ExportModal from "./lib/components/modals/ExportModal.svelte";
 	import PreferencesModal from "./lib/components/modals/PreferencesModal.svelte";
 	import PresetsModal from "./lib/components/modals/PresetsModal.svelte";
+	import { loadingState } from "./lib/stores/loading";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
@@ -35,17 +34,17 @@
 	let backgroundPreviewValue: boolean = $state(true);
 </script>
 
-{#if loading.state}
-	<div transition:fade={{duration: 250}} class="bg-twitch-background fixed top-0 left-0 z-999 flex size-full items-center justify-center">
+{#if $loadingState.loading}
+	<div class="bg-twitch-background fixed top-0 left-0 z-999 flex size-full items-center justify-center">
 		<div class="flex flex-col items-center gap-2">
 			<span>
-				{loading.label}
-				{#if loading.showProgress}
-					<span class="text-zinc-400">({loading.progress} / {loading.max})</span>
+				{$loadingState.label}
+				{#if $loadingState.showProgress}
+					<span class="text-zinc-400">({$loadingState.progress} / {$loadingState.max})</span>
 				{/if}
 			</span>
 			<div class="h-0.5 w-40 bg-zinc-800">
-				<div class="bg-twitch-text h-full transition-[width] duration-50" style="width: {Math.max(0, Math.min(loading.progress / loading.max, 1)) * 100}%"></div>
+				<div class="bg-twitch-text h-full transition-[width] duration-50" style="width: {($loadingState.progress / $loadingState.max) * 100}%"></div>
 			</div>
 		</div>
 	</div>

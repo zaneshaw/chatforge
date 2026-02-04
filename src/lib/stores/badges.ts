@@ -2,7 +2,7 @@ import { writeFile, mkdir, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { join, dirname, appCacheDir } from "@tauri-apps/api/path";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import { load } from "@tauri-apps/plugin-store";
-import { loading } from "./loading.svelte";
+import { addLoadingProgress, endLoadingSequence, startLoadingSequence } from "./loading";
 
 import { fetch } from "@tauri-apps/plugin-http";
 import { parse } from "node-html-parser";
@@ -46,21 +46,12 @@ export function getBadgeUrl(id: string, quality: number) {
 export async function loadBadges() {
 	badges.push(...(await loadTwitchBadges()));
 
-	loading.progress = 1;
-	loading.max = 1;
-	loading.label = "Finished Loading"
-	loading.showProgress = false;
-
-	await new Promise(r => setTimeout(r, 500));
-
-	loading.state = false;
+	endLoadingSequence();
 }
 
 // todo: concurrency
 async function loadTwitchBadges(): Promise<Badge[]> {
 	if (checkBadges) {
-		loading.label = "Getting list of Twitch badges...";
-
 		const res = await fetch("https://www.streamdatabase.com/twitch/global-badges?sort_by=set_id&sort_direction=ascending", {
 			method: "GET",
 		});
@@ -69,11 +60,7 @@ async function loadTwitchBadges(): Promise<Badge[]> {
 		const column = root.querySelector("div.grow.flex.m-auto.w-full > div.flex.flex-col");
 		const badgeContainers = column?.querySelectorAll("a.relative.bg-neutral-900.rounded.font-bold.uppercase");
 		if (badgeContainers) {
-			loading.progress = 0;
-			loading.max = badgeContainers.length;
-			loading.label = "Caching Twitch badges...";
-			loading.showProgress = true;
-
+			startLoadingSequence(badgeContainers.length, "Loading Twitch Badges...");
 			const appCache = await appCacheDir();
 
 			for await (const [i, badgeContainer] of badgeContainers.entries()) {
@@ -104,7 +91,7 @@ async function loadTwitchBadges(): Promise<Badge[]> {
 					}
 				}
 
-				loading.progress++;
+				addLoadingProgress(1);
 			}
 		}
 	}
