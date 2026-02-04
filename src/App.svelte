@@ -107,7 +107,7 @@
 
 <Modal bind:this={preferencesModal} class="flex flex-col gap-2">
 	<h1>Preferences</h1>
-	<Setting label="Always On Top" key="always_on_top" bind:value={alwaysOnTopValue} isChild>
+	<Setting label="Always On Top" key="always_on_top" bind:value={alwaysOnTopValue} minimal class="between">
 		<input type="checkbox" bind:checked={alwaysOnTopValue} />
 	</Setting>
 	<Setting label="Emote Cache" isChild>
