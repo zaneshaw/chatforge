@@ -82,7 +82,7 @@
 					<input type="number" bind:value={backgroundOpacityValue} min="0" max="1" step="0.1" class="w-9" />
 				</Setting>
 			</SettingsGroup>
-			<SettingsGroup label="Outline" help="Outline will only render in the exported image" disabled>
+			<SettingsGroup label="Outline" help="Outline will only render in the exported image">
 				<Setting label="Colour" key="outline.colour" bind:value={outlineColourValue} isChild>
 					<input type="color" bind:value={outlineColourValue} class="w-9" />
 				</Setting>
@@ -108,7 +108,7 @@
 	<hr />
 	<div class="flex flex-col gap-2">
 		<div class="box relative h-62.5 w-full overflow-hidden">
-			<label class="btn absolute top-0 right-0 z-20 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
+			<label class="btn absolute z-20 top-0 right-0 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
 				<input type="checkbox" bind:checked={backgorundPreviewValue} />
 				Background Preview
 			</label>
