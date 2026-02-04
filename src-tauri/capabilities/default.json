@@ -14,12 +14,7 @@
     "clipboard-manager:allow-write-image",
     {
       "identifier": "fs:default",
-      "allow": [
-        {
-          "path": "**"
-        }
-      ]
-    },
-    "store:default"
+      "allow": [{ "path": "**" }]
+    }
   ]
 }
