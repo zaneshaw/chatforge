@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { downloadDir } from "@tauri-apps/api/path";
-	import { open } from "@tauri-apps/plugin-dialog";
+	import { open, save } from "@tauri-apps/plugin-dialog";
 	import { settings } from "../../stores/settings";
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
