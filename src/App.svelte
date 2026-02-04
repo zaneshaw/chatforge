@@ -146,7 +146,7 @@
 		</div>
 	</main>
 
-	<div class="fixed bottom-2 left-2 flex flex-col gap-1 z-999">
+	<div class="fixed bottom-2 left-2 z-999 flex w-0 flex-col gap-1">
 		{#each toasts as toast (toast.id)}
 			<ToastNotification {toast} />
 		{/each}
