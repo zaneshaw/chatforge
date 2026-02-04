@@ -10,8 +10,8 @@
 	import BadgeModal from "./modals/BadgeModal.svelte";
 	import { PlusIcon, XIcon } from "@lucide/svelte";
 	import { onMount } from "svelte";
+	import { getBadgeUrl } from "../stores/badges";
 	import BadgeImage from "./BadgeImage.svelte";
-	import { allEmotes, getEmoteUrl } from "../stores/emotes";
 
 	type Props = {
 		backgroundPreview: boolean;
@@ -24,23 +24,6 @@
 
 	let usernameValue = $state(USERNAME_PLACEHOLDER);
 	let messageValue = $state(MESSAGE_PLACEHOLDER);
-
-	let messageInput: HTMLSpanElement | undefined = $state();
-	let messageInputFull: HTMLSpanElement | undefined = $state();
-	let showMessageInput = $state(false);
-
-	$effect(() => {
-		if (messageInputFull) {
-			const tokens = messageValue.split(" ");
-			for (let i = 0; i < tokens.length; i++) {
-				const emote = allEmotes.find((emote) => emote.token == tokens[i]);
-				if (emote) {
-					tokens[i] = `<div style="height: 0px; display: inline-block;"><img src="${getEmoteUrl(emote.id)}" style="display: inline-block;" /></div>`;
-				}
-			}
-			messageInputFull.innerHTML = tokens.join(" ").replaceAll("\n", "<br />");
-		}
-	});
 
 	// svelte-ignore non_reactive_update
 	let previewElement: HTMLElement;
@@ -183,40 +166,23 @@
 				</Setting><span>:</span>
 				<span class:deleted-message={$settings.message_type == "deleted"} class="wrap-break-word [.deleted-message]:opacity-50 [.deleted-message]:*:line-through">
 					<Setting label="" key="message.text" bind:value={messageValue} minimal>
-						{#if showMessageInput}
-							<span
-								bind:this={messageInput}
-								bind:innerText={messageValue}
-								contenteditable="plaintext-only"
-								onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
-								onblur={() => {
-									messageValue = messageValue
-										.trim()
-										.replace(/\n\s*\n/g, "\n")
-										.replace(/\s\s*\s/g, " ");
-									if (messageValue.length == 0) messageValue = MESSAGE_PLACEHOLDER;
-									window.getSelection()?.empty();
-									showMessageInput = false;
-								}}
-								spellcheck="false"
-								class="editable"
-								style="color: {$settings?.message?.colour};"
-							></span>
-						{:else}
-							<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-							<span
-								bind:this={messageInputFull}
-								onclick={() => {
-									showMessageInput = true;
-									setTimeout(() => {
-										messageInput?.focus();
-									}, 10);
-								}}
-								class="editable"
-								style="color: {$settings?.message?.colour};"
-							></span>
-						{/if}</Setting
-					>{#if $settings.message_type == "deleted"}
+						<span
+							bind:innerText={messageValue}
+							contenteditable="plaintext-only"
+							onfocus={(e) => window.getSelection()?.selectAllChildren(e.target as HTMLInputElement)}
+							onblur={() => {
+								messageValue = messageValue
+									.trim()
+									.replace(/\n\s*\n/g, "\n")
+									.replace(/\s\s*\s/g, " ");
+								if (messageValue.length == 0) messageValue = MESSAGE_PLACEHOLDER;
+								window.getSelection()?.empty();
+							}}
+							spellcheck="false"
+							class="editable"
+							style="color: {$settings?.message?.colour};"
+						></span>
+					</Setting>{#if $settings.message_type == "deleted"}
 						<span class="inline-block italic no-underline!">—Deleted</span>
 					{/if}
 				</span>

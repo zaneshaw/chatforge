@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { settings } from "../../stores/settings";
-	import { allBadges, getBadge, getBadgeUrl, type Badge } from "../../stores/badges";
+	import { badges, getBadge, getBadgeUrl, type Badge } from "../../stores/badges";
 	import Modal from "../Modal.svelte";
 	import { onMount, type Component } from "svelte";
 	import { AsteriskIcon, ClockIcon, RefreshCwIcon } from "@lucide/svelte";
@@ -105,7 +105,7 @@
 						<input bind:value={twitchSearchValue} type="text" placeholder="Search" class="grow" />
 					</div>
 					<div class="flex flex-wrap gap-0.5">
-						{#each allBadges.filter((badge) => {
+						{#each badges.filter((badge) => {
 							const isTwitchBadge = badge.provider == "twitch";
 							let matchesSearch = true;
 							if (twitchSearchValue) {
@@ -119,7 +119,7 @@
 					</div>
 				{:else if currentTab.isProvider}
 					<div class="flex flex-wrap gap-0.5">
-						{#each allBadges.filter((badge) => badge.provider == currentTab.id) as badge}
+						{#each badges.filter((badge) => badge.provider == currentTab.id) as badge}
 							{@render badgeButton(badge)}
 						{/each}
 					</div>

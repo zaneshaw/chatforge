@@ -7,12 +7,10 @@ import { loading } from "./loading.svelte";
 import { settings } from "./settings";
 import { get } from "svelte/store";
 
-type BadgeProvider = "twitch" | "ffz" | "bttv" | "7tv";
-
 export type Badge = {
 	id: string;
 	name: string;
-	provider: BadgeProvider;
+	provider: "twitch" | "ffz" | "bttv" | "7tv";
 	path: string;
 	ts: number;
 	data?: any;
@@ -28,10 +26,10 @@ const badgeCache = await load("badge_cache.json", {
 	autoSave: 5000,
 });
 
-export const allBadges: Badge[] = [];
+export const badges: Badge[] = [];
 
 export function getBadge(id: string) {
-	const badge = allBadges.find((badge) => badge.id == id);
+	const badge = badges.find((badge) => badge.id == id);
 
 	return badge;
 }
@@ -68,7 +66,7 @@ export async function loadBadges() {
 	}
 
 	const cached = (await badgeCache.values()) as Badge[];
-	allBadges.push(...cached);
+	badges.push(...cached);
 }
 
 export async function clearBadgeCache() {
@@ -89,7 +87,7 @@ export async function clearBadgeCache() {
 	});
 }
 
-async function tryWriteToCache(id: string, name: string, provider: BadgeProvider, url: string, data?: any) {
+async function tryWriteToCache(id: string, name: string, provider: string, url: string, data?: any) {
 	const cached = await badgeCache.get<Badge>(id);
 	const now = Date.now();
 
