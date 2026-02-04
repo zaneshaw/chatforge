@@ -11,10 +11,6 @@
     "opener:default",
     "dialog:default",
     "fs:write-files",
-    "clipboard-manager:allow-write-image",
-    {
-      "identifier": "fs:default",
-      "allow": [{ "path": "**" }]
-    }
+    "clipboard-manager:allow-write-image"
   ]
 }

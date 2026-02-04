@@ -1,94 +1,33 @@
 <script lang="ts">
-	import { snapdom } from "@zumer/snapdom";
 	import Setting from "./Setting.svelte";
 
-	import { join } from "@tauri-apps/api/path";
-	import { writeFile } from "@tauri-apps/plugin-fs";
-	import { writeImage } from "@tauri-apps/plugin-clipboard-manager";
-	import { Image } from "@tauri-apps/api/image";
-	import { settings } from "../stores/settings";
-	import { revealItemInDir } from "@tauri-apps/plugin-opener";
-
 	type Props = {
+		usernameColour: string;
+		messageColour: string;
+		backgroundColor: string;
 		backgroundPreview: boolean;
 	};
 
 	const USERNAME_PLACEHOLDER = "username";
 	const MESSAGE_PLACEHOLDER = "click to edit";
 
-	let { backgroundPreview }: Props = $props();
+	let { usernameColour, messageColour, backgroundColor, backgroundPreview }: Props = $props();
 
 	let usernameValue = $state(USERNAME_PLACEHOLDER);
 	let messageValue = $state(MESSAGE_PLACEHOLDER);
 
-	// svelte-ignore non_reactive_update
-	let previewElement: HTMLElement;
-	// svelte-ignore non_reactive_update
-	let messageElement: HTMLElement;
-
 	let badges = ["3267646d-33f0-4b17-b3df-f923a41db1d0", "18b92728-aa7a-4e24-acb5-b14ea17c8b2b"];
-	let backgroundColourHex = $derived(
-		`${$settings?.background?.colour}${Math.floor($settings?.background?.opacity * 255)
-			.toString(16)
-			.padStart(2, "0")}`,
-	);
-
-	let maxWidth: number | undefined = $derived.by(() => {
-		switch ($settings.max_width) {
-			case "twitch":
-				return 340;
-			case "custom":
-				return $settings.custom_max_width;
-			default:
-				return undefined;
-		}
-	});
-
-	export async function exportMessage() {
-		if ($settings?.export?.output_directory) {
-			const path = await join($settings.export.output_directory, `chatforge-${Date.now()}.png`);
-
-			messageElement.appendChild(previewElement.cloneNode(true));
-			if ($settings.export.resolution == "custom") {
-				messageElement.style.width = `${$settings.export.custom_resolution.width}px`;
-				messageElement.style.height = `${$settings.export.custom_resolution.height}px`;
-			}
-
-			const result = await snapdom.toBlob(messageElement, {
-				type: "png",
-				embedFonts: true,
-				scale: $settings.export.scale,
-			});
-
-			messageElement.innerHTML = "";
-			messageElement.style.removeProperty("width");
-			messageElement.style.removeProperty("height");
-
-			const bytes = new Uint8Array(await result.arrayBuffer());
-			const image = await Image.fromBytes(bytes);
-
-			await writeFile(path, bytes);
-
-			if ($settings.export.copy_to_clipboard) {
-				await writeImage(image);
-			}
-
-			if ($settings.export.open_directory) {
-				await revealItemInDir(path);
-			}
-		}
-	}
 </script>
 
 <div class="relative size-full">
 	{#if backgroundPreview}
 		<div class="pointer-events-none absolute top-0 left-0 size-full bg-[url(/transparent.png)] bg-size-[10%] bg-center [image-rendering:pixelated]"></div>
 	{/if}
-	<div class="absolute top-0 left-0 flex size-full items-center justify-center overflow-auto text-sm" style="background-color: {backgroundPreview ? backgroundColourHex : 'unset'};">
+	<div class="absolute top-0 left-0 flex size-full items-center justify-center overflow-auto text-sm" style="background-color: {backgroundPreview ? backgroundColor : 'unset'};">
 		{#await document.fonts.ready}
 			<span class="text-zinc-600">loading font...</span>
 		{:then}
-			<div bind:this={previewElement} class="z-10 px-4 py-1 leading-5.5" style="max-width: {maxWidth ? `${maxWidth}px` : 'unset'}; min-width: {maxWidth ? 'unset' : 'max-content'};">
+			<div class="z-10 max-w-85 px-4 py-1 leading-5.5">
 				<span class="*:mr-0.75 *:mb-0.5 *:inline-block *:size-4.5 *:align-middle">
 					{#each badges as badge}
 						<span style="background-image: url(https://static-cdn.jtvnw.net/badges/v1/{badge}/1);"></span>
@@ -109,7 +48,7 @@
 						}}
 						spellcheck="false"
 						class="editable font-bold break-all"
-						style="color: {$settings?.username?.colour};"
+						style="color: {usernameColour};"
 					></span>
 				</Setting><span>:</span>
 				<span class="wrap-break-word">
@@ -128,7 +67,7 @@
 							}}
 							spellcheck="false"
 							class="editable"
-							style="color: {$settings?.message?.colour};"
+							style="color: {messageColour};"
 						></span>
 					</Setting>
 				</span>
@@ -136,5 +75,3 @@
 		{/await}
 	</div>
 </div>
-
-<div bind:this={messageElement} class="pointer-events-none fixed top-full left-full -z-100 flex w-max items-center justify-center text-sm" style="background-color: {backgroundColourHex};"></div>

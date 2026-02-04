@@ -87,10 +87,6 @@ input[type="number"] {
 
 .btn {
 	@apply bg-twitch-background-light w-max cursor-pointer rounded-xs px-2 py-1 outline-1 outline-zinc-700 hover:bg-zinc-800 active:bg-zinc-700 active:outline-zinc-600;
-
-	&[disabled] {
-		@apply pointer-events-none text-zinc-500 outline-zinc-800;
-	}
 }
 
 .between {
