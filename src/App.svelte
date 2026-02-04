@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { SettingsIcon } from "@lucide/svelte";
 	import Modal from "./lib/components/Modal.svelte";
 	import Setting from "./lib/components/Setting.svelte";
 	import SettingsGroup from "./lib/components/SettingsGroup.svelte";
@@ -20,9 +19,7 @@
 				<img src="/garf.png" alt="" class="h-5" />
 			</div>
 			<div class="flex grow basis-0 justify-end">
-				<button class="group cursor-pointer" onclick={preferencesModal.open}>
-					<SettingsIcon class="group-hover:stroke-twitch-text size-5 stroke-zinc-400" />
-				</button>
+				<button class="btn" onclick={preferencesModal.open}>Preferences</button>
 			</div>
 		</div>
 		<SettingsRow>
@@ -68,7 +65,7 @@
 	<hr />
 	<div class="flex flex-col gap-2">
 		<div class="box relative h-62.5 w-full overflow-hidden">
-			<label class="btn absolute top-0 right-0 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
+			<label class="btn absolute top-0 right-0 flex items-center gap-1.5 rounded-none! rounded-bl-xs!">
 				<input type="checkbox" name="" id="" />
 				Background Preview
 			</label>
