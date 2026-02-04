@@ -55,13 +55,13 @@
 			<RadioButton bind:selected={exportResolutionValue} name="fit" first>Fit</RadioButton>
 			<RadioButton bind:selected={exportResolutionValue} name="custom" last>
 				{#if $settings?.export?.resolution == "custom"}
-					<span class="-mr-0.5">w:</span>
+					<span>w:</span>
 					<Setting label="" key="export.custom_resolution.width" bind:value={customExportWidthValue} minimal>
-						<input type="number" bind:value={customExportWidthValue} class="no-spinner w-9" />
+						<input type="number" bind:value={customExportWidthValue} class="w-12" />
 					</Setting>
-					<span class="-mr-0.5">h:</span>
+					<span>h:</span>
 					<Setting label="" key="export.custom_resolution.height" bind:value={customExportHeightValue} minimal>
-						<input type="number" bind:value={customExportHeightValue} class="no-spinner w-9" />
+						<input type="number" bind:value={customExportHeightValue} class="w-12" />
 					</Setting>
 				{:else}
 					Custom

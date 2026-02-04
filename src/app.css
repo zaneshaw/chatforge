@@ -91,12 +91,6 @@ input[type="number"] {
 	&::-webkit-outer-spin-button {
 		@apply cursor-pointer opacity-100;
 	}
-
-	&.no-spinner::-webkit-outer-spin-button,
-	&.no-spinner::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
 }
 
 input[type="text"] {
