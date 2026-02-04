@@ -14,8 +14,8 @@
 		"windows": [
 			{
 				"title": "ChatForge",
-				"width": 400,
-				"height": 600,
+				"width": 900,
+				"height": 350,
 				"maximizable": false,
 				"resizable": false
 			}
