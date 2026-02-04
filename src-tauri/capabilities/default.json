@@ -30,24 +30,6 @@
         },
         {
           "url": "https://static-cdn.jtvnw.net"
-        },
-        {
-          "url": "https://api.frankerfacez.com"
-        },
-        {
-          "url": "https://cdn.frankerfacez.com"
-        },
-        {
-          "url": "https://api.betterttv.net"
-        },
-        {
-          "url": "https://cdn.betterttv.net"
-        },
-        {
-          "url": "https://7tv.io/v3/gql"
-        },
-        {
-          "url": "https://cdn.7tv.app"
         }
       ],
       "deny": []

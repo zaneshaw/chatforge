@@ -1,8 +1,7 @@
-export const loading: { state: boolean; progress: number; max: number; label: string; showProgress: boolean; showProgressText: boolean } = $state({
+export const loading: { state: boolean; progress: number; max: number; label: string; showProgress: boolean } = $state({
 	state: true,
 	progress: 0,
 	max: 100,
-	label: "",
+	label: "Loading...",
 	showProgress: false,
-	showProgressText: false,
 });

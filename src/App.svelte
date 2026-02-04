@@ -36,20 +36,16 @@
 </script>
 
 {#if loading.state}
-	<div transition:fade={{ duration: 250 }} class="bg-twitch-background fixed top-0 left-0 z-999 flex size-full items-center justify-center">
+	<div transition:fade={{duration: 250}} class="bg-twitch-background fixed top-0 left-0 z-999 flex size-full items-center justify-center">
 		<div class="flex flex-col items-center gap-2">
 			<span>
 				{loading.label}
-				{#if loading.showProgressText}
+				{#if loading.showProgress}
 					<span class="text-zinc-400">({loading.progress} / {loading.max})</span>
 				{/if}
 			</span>
-			<div class="h-0.5 w-40">
-				{#if loading.showProgress}
-					<div class="size-full bg-zinc-800">
-						<div class="bg-twitch-text h-full transition-[width] duration-50" style="width: {Math.max(0, Math.min(loading.progress / loading.max, 1)) * 100}%"></div>
-					</div>
-				{/if}
+			<div class="h-0.5 w-40 bg-zinc-800">
+				<div class="bg-twitch-text h-full transition-[width] duration-50" style="width: {Math.max(0, Math.min(loading.progress / loading.max, 1)) * 100}%"></div>
 			</div>
 		</div>
 	</div>
