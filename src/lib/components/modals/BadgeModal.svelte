@@ -15,8 +15,6 @@
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
-	let twitchSearchValue: string = $state("");
-
 	let tabs: Tab[] = [
 		{ id: "recent", label: "Recent Badges", isProvider: false, component: ClockIcon },
 		{ id: "channel", label: "Channel Badges", isProvider: false, imgSrc: "/icons/channel-flat.png" },
@@ -43,10 +41,7 @@
 
 {#snippet tabButton(tabId: string, imgSrc?: string, Component?: Component)}
 	<button
-		onclick={() => {
-			currentTabId = tabId;
-			twitchSearchValue = "";
-		}}
+		onclick={() => (currentTabId = tabId)}
 		class:current={currentTabId == tabId}
 		class="flex size-6 cursor-pointer items-center justify-center rounded-xs p-1 hover:bg-zinc-800 [.current]:bg-zinc-700"
 	>
@@ -68,14 +63,7 @@
 	{/if}
 {/snippet}
 
-<Modal
-	bind:this={modal}
-	afterOpen={() => {
-		currentTabId = "recent";
-		twitchSearchValue = "";
-	}}
-	class="flex flex-col gap-2"
->
+<Modal bind:this={modal} afterOpen={() => (currentTabId = "recent")} class="flex flex-col gap-2">
 	<h1>Add a Badge</h1>
 	<div class="flex gap-1.5">
 		<div bind:clientHeight={tabsHeight} class="flex flex-col gap-1">
@@ -89,18 +77,10 @@
 				<h2>{currentTab.label}</h2>
 				{#if currentTabId == "twitch"}
 					<div class="flex">
-						<input bind:value={twitchSearchValue} type="text" placeholder="Search" class="grow" />
+						<input type="text" placeholder="Search" class="grow" />
 					</div>
 					<div class="grid grid-cols-8">
-						{#each badges.filter((badge) => {
-							const isTwitchBadge = badge.provider == "twitch";
-							let matchesSearch = true;
-							if (twitchSearchValue) {
-								matchesSearch = badge.name.toLowerCase().replace(/\s/g, "").startsWith(twitchSearchValue.replace(/\s/g, ""));
-							}
-
-							return isTwitchBadge && matchesSearch;
-						}) as badge}
+						{#each badges.filter((badge) => badge.provider == "twitch") as badge}
 							{@render badgeButton(badge)}
 						{/each}
 					</div>
