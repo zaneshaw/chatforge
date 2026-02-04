@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getCurrentWindow } from "@tauri-apps/api/window";
 	import { settings } from "../../stores/settings";
 	import Modal from "../Modal.svelte";
 	import Setting from "../Setting.svelte";
@@ -21,10 +20,6 @@
 	function onMouseUp() {
 		if (factoryResetTimer) clearTimeout(factoryResetTimer);
 	}
-
-	$effect(() => {
-		getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
-	});
 </script>
 
 <svelte:window onmouseup={onMouseUp} />

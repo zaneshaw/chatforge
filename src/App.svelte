@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getCurrentWindow } from "@tauri-apps/api/window";
 	import { SettingsIcon } from "@lucide/svelte";
 	import { settings } from "./lib/stores/settings";
 	import Modal from "./lib/components/Modal.svelte";
@@ -31,6 +32,10 @@
 	let customMaxWidthValue: number = $state(340);
 
 	let backgroundPreviewValue: boolean = $state(true);
+
+	$effect(() => {
+		getCurrentWindow().setAlwaysOnTop($settings.always_on_top);
+	});
 </script>
 
 <main class="flex h-full grow flex-col justify-between">
