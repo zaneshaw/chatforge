@@ -109,6 +109,7 @@
 						<div class="ml-auto flex">
 							<RadioButton bind:selected={fontFamilyValue} name="Inter" first>Inter</RadioButton>
 							<RadioButton bind:selected={fontFamilyValue} name="MADE" last>MADE</RadioButton>
+							<RadioButton bind:selected={fontFamilyValue} name="Minecraft" last>MC</RadioButton>
 						</div>
 					</Setting>
 					<Setting label="Bold" key="font.bold" bind:value={fontBoldValue} noBorder>

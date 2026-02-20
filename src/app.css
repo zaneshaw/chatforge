@@ -10,6 +10,11 @@
 	src: url("/made extrabold.otf");
 }
 
+@font-face {
+	font-family: Minecraft;
+	src: url("/minecraft_font.otf");
+}
+
 @theme {
 	--color-twitch-background: #0e0e10;
 	--color-twitch-background-light: #18181b;
