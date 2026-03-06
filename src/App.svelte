@@ -140,10 +140,12 @@
 		<hr />
 		<div class="flex flex-col gap-2">
 			<div class="box relative h-62.5 w-full overflow-hidden">
-				<label class="btn absolute top-0 right-0 z-20 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
-					<input type="checkbox" bind:checked={backgroundPreviewValue} />
-					Background Preview
-				</label>
+				<Setting label="" key="background_preview" bind:value={backgroundPreviewValue} minimal>
+					<label class="btn absolute top-0 right-0 z-20 flex items-center gap-1.5 rounded-none! rounded-bl-xs! outline-zinc-800!">
+						<input type="checkbox" bind:checked={backgroundPreviewValue} />
+						Background Preview
+					</label>
+				</Setting>
 				<MessagePreview bind:this={messagePreview} backgroundPreview={backgroundPreviewValue} />
 			</div>
 			<button onclick={() => exportModal.open()} class="btn ml-auto">Export...</button>
