@@ -16,7 +16,6 @@
 	import ToastNotification from "./lib/components/ToastNotification.svelte";
 	import { dismissAllToasts, pushToast, toasts } from "./lib/stores/toasts.svelte";
 	import { onMount } from "svelte";
-	import EmotePaletteModal from "./lib/components/modals/EmotePaletteModal.svelte";
 
 	// svelte-ignore non_reactive_update
 	let preferencesModal: Modal;
@@ -24,8 +23,6 @@
 	let presetsModal: Modal;
 	// svelte-ignore non_reactive_update
 	let emotesModal: Modal;
-	// svelte-ignore non_reactive_update
-	let emotePaletteModal: Modal;
 	// svelte-ignore non_reactive_update
 	let exportModal: Modal;
 	// svelte-ignore non_reactive_update
@@ -148,9 +145,6 @@
 					Background Preview
 				</label>
 				<MessagePreview bind:this={messagePreview} backgroundPreview={backgroundPreviewValue} />
-				<button class="absolute right-2 bottom-2">
-					<SmileIcon onclick={() => emotePaletteModal.open()} class="hover:stroke-twitch-text size-5 cursor-pointer stroke-neutral-700" />
-				</button>
 			</div>
 			<button onclick={() => exportModal.open()} class="btn ml-auto">Export...</button>
 		</div>
@@ -165,6 +159,5 @@
 	<PreferencesModal bind:modal={preferencesModal} />
 	<PresetsModal bind:modal={presetsModal} />
 	<EmotesModal bind:modal={emotesModal} />
-	<EmotePaletteModal bind:modal={emotePaletteModal} />
 	<ExportModal bind:modal={exportModal} preview={messagePreview} />
 {/if}

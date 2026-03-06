@@ -11,7 +11,6 @@
 	import { PlusIcon, XIcon } from "@lucide/svelte";
 	import { onMount } from "svelte";
 	import BadgeImage from "./BadgeImage.svelte";
-	import { allEmotes, getEmoteUrl } from "../stores/emotes";
 	import { pushToast } from "../stores/toasts.svelte";
 
 	type Props = {
@@ -33,12 +32,13 @@
 	$effect(() => {
 		if (messageInputFull) {
 			const tokens = messageValue.split(" ");
-			for (let i = 0; i < tokens.length; i++) {
-				const emote = allEmotes.find((emote) => emote.token == tokens[i]);
-				if (emote) {
-					tokens[i] = `<div style="height: 0px; display: inline-block;"><img src="${getEmoteUrl(emote.id)}" style="display: inline-block;" /></div>`;
-				}
-			}
+			// for (let i = 0; i < tokens.length; i++) {
+			// 	const emote = allEmotes.find((emote) => emote.token == tokens[i]);
+			// 	if (emote) {
+			// 		tokens[i] = `<div style="height: 0px; display: inline-block;"><img src="${getEmoteUrl(emote.id)}" style="display: inline-block;" /></div>`;
+			// 	}
+			// }
+			// messageInputFull.innerHTML = tokens.join(" ").replaceAll("\n", "<br />");
 			messageInputFull.innerHTML = tokens.join(" ").replaceAll("\n", "<br />");
 		}
 	});
