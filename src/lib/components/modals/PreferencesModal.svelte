@@ -7,6 +7,7 @@
 	import { getStore } from "@tauri-apps/plugin-store";
 	import { settings } from "../../stores/settings";
 	import { loading } from "../../stores/loading.svelte";
+	import { clearEmoteCache } from "../../stores/emotes";
 
 	let { modal = $bindable() }: { modal: Modal } = $props();
 
@@ -26,7 +27,7 @@
 				loading.progress = 1;
 
 				await clearBadgeCache();
-				// await clearEmoteCache();
+				await clearEmoteCache();
 				loading.progress = 2;
 
 				setTimeout(() => (loading.progress = 3), 500);
@@ -54,7 +55,7 @@
 	<Setting label="Emote Cache" noBorder>
 		<button
 			onclick={async () => {
-				// await clearEmoteCache();
+				await clearEmoteCache();
 				location.reload();
 			}}
 			class="btn">Clear</button

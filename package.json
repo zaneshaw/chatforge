@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@lucide/svelte": "^0.562.0",
+    "@mkody/twitch-emoticons": "^3.0.0-beta.1",
     "@tailwindcss/vite": "^4.1.17",
     "@tauri-apps/api": "^2.9.1",
     "@tauri-apps/plugin-clipboard-manager": "^2.3.2",

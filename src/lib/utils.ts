@@ -1,4 +1,8 @@
 export async function twitchLoginExists(login: string) {
+	return await twitchLoginToId(login) != null;
+}
+
+export async function twitchLoginToId(login: string): Promise<number | null> {
 	const res = await fetch("https://gql.twitch.tv/gql", {
 		method: "POST",
 		headers: {
@@ -19,5 +23,5 @@ export async function twitchLoginExists(login: string) {
 
 	const user = (await res.json()).data.user;
 
-	return user.id != "";
+	return parseInt(user.id) ?? null;
 }

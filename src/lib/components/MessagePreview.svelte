@@ -12,6 +12,8 @@
 	import { onMount } from "svelte";
 	import BadgeImage from "./BadgeImage.svelte";
 	import { pushToast } from "../stores/toasts.svelte";
+	import { EmoteParser } from "@mkody/twitch-emoticons";
+	import { fetcher } from "../stores/emotes";
 
 	type Props = {
 		backgroundPreview: boolean;
@@ -19,6 +21,10 @@
 
 	const USERNAME_PLACEHOLDER = "username";
 	const MESSAGE_PLACEHOLDER = "click to edit";
+
+	const parser = new EmoteParser(fetcher, {
+		template: '<div style="height: 0px; display: inline-block;"><img src="{link}" alt="{name}" style="display: inline-block;" /></div>',
+	});
 
 	let { backgroundPreview }: Props = $props();
 
@@ -31,15 +37,7 @@
 
 	$effect(() => {
 		if (messageInputFull) {
-			const tokens = messageValue.split(" ");
-			// for (let i = 0; i < tokens.length; i++) {
-			// 	const emote = allEmotes.find((emote) => emote.token == tokens[i]);
-			// 	if (emote) {
-			// 		tokens[i] = `<div style="height: 0px; display: inline-block;"><img src="${getEmoteUrl(emote.id)}" style="display: inline-block;" /></div>`;
-			// 	}
-			// }
-			// messageInputFull.innerHTML = tokens.join(" ").replaceAll("\n", "<br />");
-			messageInputFull.innerHTML = tokens.join(" ").replaceAll("\n", "<br />");
+			messageInputFull.innerHTML = parser.parse(messageValue);
 		}
 	});
 
