@@ -95,7 +95,8 @@ async function tryWriteToCache(id: string, name: string, provider: BadgeProvider
 	const cached = await badgeCache.get<Badge>(id);
 	const now = Date.now();
 
-	if (!cached || now >= cached.ts + cacheLifetime) {
+	// if (!cached || now >= cached.ts + cacheLifetime) {
+	if (!cached) {
 		const badgeRes = await fetch(url);
 		const badgeBytes = new Uint8Array(await badgeRes.arrayBuffer());
 
