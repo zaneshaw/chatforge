@@ -45,12 +45,29 @@ export async function loadEmotes() {
 			const channelId = await twitchLoginToId(channel);
 
 			if (channelId) {
+				let errorFlag = false;
 				try {
 					await fetchTwitchEmotes(fetcher, channel, channelId);
+				} catch {
+					errorFlag = true;
+				}
+				try {
 					await fetcher.fetchBTTVEmotes(channelId);
+				} catch {
+					errorFlag = true;
+				}
+				try {
 					await fetcher.fetchSevenTVEmotes(channelId);
+				} catch {
+					errorFlag = true;
+				}
+				try {
 					await fetcher.fetchFFZEmotes(channelId);
-				} catch (err) {
+				} catch {
+					errorFlag = true;
+				}
+
+				if (errorFlag) {
 					pushToast("error", "Failed to load some or all channel emotes!");
 				}
 			}
