@@ -51,8 +51,10 @@ export async function loadBadges() {
 	const now = Date.now();
 
 	if (!lastBadgeCheck || now >= lastBadgeCheck + checkCacheInterval) {
+		const _settings = get(settings);
+
 		await loadTwitchBadges();
-		await loadTwitchChannelBadges("liam");
+		await loadTwitchChannelBadges(_settings?.badges?.channel);
 		await loadFFZBadges();
 		await loadBTTVBadges();
 		await load7TVBadges();
