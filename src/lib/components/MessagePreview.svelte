@@ -23,6 +23,7 @@
 	const MESSAGE_PLACEHOLDER = "click to edit";
 
 	const parser = new EmoteParser(fetcher, {
+		match: /([^\s]+)/g,
 		template: '<div style="height: 0px; display: inline-block;"><img src="{link}" alt="{name}" style="display: inline-block;" /></div>',
 	});
 
